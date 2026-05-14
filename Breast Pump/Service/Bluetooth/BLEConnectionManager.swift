@@ -2,7 +2,7 @@
 //  BLEConnectionManager.swift
 //  Breast Pump
 //
-//  Created by Addwii on 2022/1/5.
+//  Created by Chunli Cheng on 2022/1/5.
 //
 
 import CoreBluetooth
