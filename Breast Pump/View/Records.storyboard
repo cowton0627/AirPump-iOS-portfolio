@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--ADDWII-->
+        <!--AirPump-->
         <scene sceneID="31d-Ye-EL3">
             <objects>
                 <viewController storyboardIdentifier="MainRecordViewController" id="m6X-rx-c79" customClass="MainRecordViewController" customModule="Breast_Pump" customModuleProvider="target" sceneMemberID="viewController">
@@ -108,7 +108,7 @@
                             <constraint firstItem="kTJ-Yc-rgw" firstAttribute="top" secondItem="tLZ-Go-NLE" secondAttribute="bottom" constant="16" id="nDP-x1-a7p"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="ADDWII" largeTitleDisplayMode="always" id="Z2V-YV-8Vt">
+                    <navigationItem key="navigationItem" title="AirPump" largeTitleDisplayMode="always" id="Z2V-YV-8Vt">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="prefMenu" id="WRe-Pi-xnr"/>
                     </navigationItem>
                     <connections>

@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--ADDWII-->
+        <!--AirPump-->
         <scene sceneID="oeb-zr-ofk">
             <objects>
                 <viewController storyboardIdentifier="OperationViewController" id="jaI-GE-BtG" customClass="OperationViewController" customModule="Breast_Pump" customModuleProvider="target" sceneMemberID="viewController">
@@ -344,7 +344,7 @@
                             <constraint firstItem="dPZ-Xu-alG" firstAttribute="top" secondItem="Jqo-ec-IRU" secondAttribute="top" constant="60" id="ylu-tn-yem"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="ADDWII" largeTitleDisplayMode="always" id="gEC-j5-wXV">
+                    <navigationItem key="navigationItem" title="AirPump" largeTitleDisplayMode="always" id="gEC-j5-wXV">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="prefMenu" id="8FO-V6-P6b"/>
                         <barButtonItem key="rightBarButtonItem" image="addDevice" id="iCh-Fe-Ig7"/>
                     </navigationItem>

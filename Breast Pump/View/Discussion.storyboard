@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--ADDWII-->
+        <!--AirPump-->
         <scene sceneID="MJP-Df-9OV">
             <objects>
                 <viewController storyboardIdentifier="DiscussionViewController" id="Gi7-Yc-8dh" customClass="DiscussionViewController" customModule="Breast_Pump" customModuleProvider="target" sceneMemberID="viewController">
@@ -19,7 +19,7 @@
                         <viewLayoutGuide key="safeArea" id="LEV-vQ-5ru"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="ADDWII" largeTitleDisplayMode="always" id="uoM-FF-4Tf">
+                    <navigationItem key="navigationItem" title="AirPump" largeTitleDisplayMode="always" id="uoM-FF-4Tf">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="prefMenu" id="BTI-oJ-Kmc"/>
                     </navigationItem>
                 </viewController>

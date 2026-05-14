@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--ADDWII-->
+        <!--AirPump-->
         <scene sceneID="C6V-NV-BMF">
             <objects>
                 <tableViewController storyboardIdentifier="PersonalPreferenceTableViewController" id="yxD-dl-BvG" customClass="PersonalPreferenceTableViewController" customModule="Breast_Pump" customModuleProvider="target" sceneMemberID="viewController">
@@ -303,7 +303,7 @@
                             <outlet property="delegate" destination="yxD-dl-BvG" id="KP1-aN-9p6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="ADDWII" id="FHl-qp-YaD">
+                    <navigationItem key="navigationItem" title="AirPump" id="FHl-qp-YaD">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="prefMenu" id="s9x-FT-Ycn"/>
                     </navigationItem>
                     <connections>
