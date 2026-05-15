@@ -32,3 +32,7 @@ fastlane/test_output
 /F01 Souce Code.docx
 /cmd.jpg
 /特徵值的UUID.jpg
+
+# Personal AI assistant config (treated as personal IDE setting)
+/CLAUDE.md
+
