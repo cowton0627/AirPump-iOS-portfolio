@@ -335,9 +335,9 @@
                             <constraint firstItem="kRf-a0-2Zq" firstAttribute="top" secondItem="dPZ-Xu-alG" secondAttribute="bottom" constant="16" id="Vbp-cC-9vl"/>
                             <constraint firstItem="GO4-hW-cQv" firstAttribute="centerX" secondItem="cJf-vB-8ks" secondAttribute="centerX" id="XN5-fl-NCU"/>
                             <constraint firstItem="YE3-iy-wiI" firstAttribute="top" secondItem="Jqo-ec-IRU" secondAttribute="top" constant="24" id="aCT-Ag-HNC"/>
-                            <constraint firstItem="GO4-hW-cQv" firstAttribute="bottom" secondItem="Jqo-ec-IRU" secondAttribute="bottom" constant="-16" id="edL-UN-BB1"/>
+                            <constraint firstItem="GO4-hW-cQv" firstAttribute="top" secondItem="cJf-vB-8ks" secondAttribute="bottom" constant="16" id="edL-UN-BB1"/>
                             <constraint firstItem="cJf-vB-8ks" firstAttribute="top" secondItem="dPZ-Xu-alG" secondAttribute="bottom" constant="16" id="inz-Ur-Jqw"/>
-                            <constraint firstItem="qfj-Ic-4RK" firstAttribute="bottom" secondItem="Jqo-ec-IRU" secondAttribute="bottom" constant="-16" id="k9H-mU-AWM"/>
+                            <constraint firstItem="qfj-Ic-4RK" firstAttribute="top" secondItem="kRf-a0-2Zq" secondAttribute="bottom" constant="16" id="k9H-mU-AWM"/>
                             <constraint firstItem="qfj-Ic-4RK" firstAttribute="centerX" secondItem="kRf-a0-2Zq" secondAttribute="centerX" id="oEO-V0-AWK"/>
                             <constraint firstItem="kRf-a0-2Zq" firstAttribute="leading" secondItem="Jqo-ec-IRU" secondAttribute="leading" id="ogS-Y1-QFU"/>
                             <constraint firstItem="dPZ-Xu-alG" firstAttribute="centerX" secondItem="ky8-rz-dhx" secondAttribute="centerX" id="oqV-Rb-Yub"/>
@@ -345,19 +345,17 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="AirPump" largeTitleDisplayMode="always" id="gEC-j5-wXV">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="prefMenu" id="8FO-V6-P6b"/>
-                        <barButtonItem key="rightBarButtonItem" image="addDevice" id="iCh-Fe-Ig7"/>
+                        <barButtonItem key="leftBarButtonItem" image="line.3.horizontal" catalog="system" id="8FO-V6-P6b"/>
+                        <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="iCh-Fe-Ig7"/>
                     </navigationItem>
                     <connections>
                         <outlet property="dateLabel" destination="dPZ-Xu-alG" id="jbm-76-VXa"/>
                         <outlet property="dateTopConstraint" destination="ylu-tn-yem" id="QMT-aR-Mue"/>
-                        <outlet property="lStackBottomConstraint" destination="k9H-mU-AWM" id="lY2-TJ-zAJ"/>
                         <outlet property="lViewTopConstraint" destination="Vbp-cC-9vl" id="EFT-tI-hSa"/>
                         <outlet property="leftStack" destination="qfj-Ic-4RK" id="x1T-R9-MLN"/>
                         <outlet property="leftStrenthView" destination="cpI-ak-fxX" id="NAg-K7-FSc"/>
                         <outlet property="leftView" destination="kRf-a0-2Zq" id="kw8-G2-T0Q"/>
                         <outlet property="opTopConstraint" destination="aCT-Ag-HNC" id="7kU-jv-8D4"/>
-                        <outlet property="rStackBottomConstraint" destination="edL-UN-BB1" id="WyH-RA-tfe"/>
                         <outlet property="rViewTopConstraint" destination="inz-Ur-Jqw" id="bqZ-RC-fZw"/>
                         <outlet property="rightStack" destination="GO4-hW-cQv" id="VaY-SL-Bgw"/>
                         <outlet property="rightStrenthView" destination="TzF-KO-WAl" id="tSh-9h-xqg"/>
@@ -489,7 +487,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="addDevice" width="40" height="40"/>
+        <image name="plus" catalog="system" width="40" height="40"/>
         <image name="battery_75" width="384" height="353"/>
         <image name="battery_null" width="384" height="353"/>
         <image name="blueTooth_Off" width="162" height="162"/>
@@ -499,7 +497,7 @@
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="play" width="310" height="310"/>
         <image name="plus" width="150" height="150"/>
-        <image name="prefMenu" width="40" height="40"/>
+        <image name="line.3.horizontal" catalog="system" width="40" height="40"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
