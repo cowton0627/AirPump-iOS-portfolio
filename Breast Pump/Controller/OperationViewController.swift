@@ -47,8 +47,8 @@ class OperationViewController: UIViewController {
     private var autoCount = 0
     private var autoLastCount = 0
     // navigationBar用圖顯示原樣
-    private let prefMenuImage = UIImage(named: "prefMenu")?.withRenderingMode(.alwaysOriginal)
-    private let addDeviceImage = UIImage(named: "addDevice")?.withRenderingMode(.alwaysOriginal)
+    private let menuIcon = UIImage(systemName: "line.3.horizontal")
+    private let addIcon = UIImage(systemName: "plus")
     // 現螢幕寬高
     private let screenWidth = UIScreen.main.bounds.width
     private let screenHeight = UIScreen.main.bounds.height
@@ -113,9 +113,9 @@ class OperationViewController: UIViewController {
     @IBOutlet weak var dateTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var lViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var rViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var lStackBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var rStackBottomConstraint: NSLayoutConstraint!
     
+    private var didConfigureArcs = false
+
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,15 +124,23 @@ class OperationViewController: UIViewController {
         // 自動連線才可能會用到
 //        didUpdateValueForState()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         bleManager.startingScan()
         setupListener()
         didUpdateValueForUiState()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         bleManager.stopScanning()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard !didConfigureArcs, leftView.bounds.width > 0 else { return }
+        applyArc(to: leftView, roundedCorners: [.topRight, .bottomRight])
+        applyArc(to: rightView, roundedCorners: [.topLeft, .bottomLeft])
+        didConfigureArcs = true
     }
     
     // MARK: - IBAction
@@ -1608,11 +1616,11 @@ class OperationViewController: UIViewController {
     
     private func configureUI() {
         // 設定navigationBar顯圖與buttonAction
-        let leftBarItem = UIBarButtonItem(image: prefMenuImage, style: .plain,
+        let leftBarItem = UIBarButtonItem(image: menuIcon, style: .plain,
                                           target: self, action: #selector(showPrefMenu))
         navigationItem.setLeftBarButton(leftBarItem, animated: true)
         
-        let rightBarItem = UIBarButtonItem(image: addDeviceImage, style: .plain,
+        let rightBarItem = UIBarButtonItem(image: addIcon, style: .plain,
                                            target: self, action: #selector(showDeviceList))
         navigationItem.setRightBarButton(rightBarItem, animated: true)
         
@@ -1624,8 +1632,7 @@ class OperationViewController: UIViewController {
         let month = current.component(.month, from: date)
         dateLabel.text = "\(year).\(month).\(day)"
         
-        // 設置底層view
-        setupLeftRightView()
+        // 弧形 leftView/rightView 由 viewDidLayoutSubviews 在 bounds 確定後套用
 
         // 強度底view
         leftStrenthView.layer.cornerRadius = 35
@@ -1693,102 +1700,51 @@ class OperationViewController: UIViewController {
         }
     }
     
-    private func setupLeftRightView() {
-        //左半邊的view呈現圓弧形
-        var leftPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 185, height: 375), byRoundingCorners: [.topRight,.bottomRight], cornerRadii: CGSize(width: 100, height: 0))
-        //右半邊的view呈現圓弧形
-        var rightPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 185, height: 375), byRoundingCorners: [.topLeft,.bottomLeft], cornerRadii: CGSize(width: 100, height: 0))
-        
-        //若手機大於4.7吋調整畫面
-        if screenWidth > 400 {
-            leftView.frame = CGRect(x: 0, y: 0, width: 200, height: 430)
-            leftPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 185, height: 430), byRoundingCorners: [.topRight,.bottomRight], cornerRadii: CGSize(width: 120, height: 0))
-            rightView.frame = CGRect(x: 0, y: 0, width: 200, height: 430)
-            rightPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 185, height: 430), byRoundingCorners: [.topLeft,.bottomLeft], cornerRadii: CGSize(width: 120, height: 0))
-        }
-        
-        let leftShapeLayer = CAShapeLayer()
-        leftShapeLayer.path = leftPath.cgPath
-        leftView.layer.mask = leftShapeLayer
-        let rightShapeLayer = CAShapeLayer()
-        rightShapeLayer.path = rightPath.cgPath
-        rightView.layer.mask = rightShapeLayer
-        
-        //Add Border
-        let leftBorderLayer = CAShapeLayer()
-        leftBorderLayer.path = leftShapeLayer.path
-        leftBorderLayer.fillColor = UIColor.clear.cgColor
-        leftBorderLayer.strokeColor = themeColor.cgColor
-        leftBorderLayer.lineWidth = 5
-        leftBorderLayer.frame = leftView.bounds
-//        leftView.layer.addSublayer(leftBorderLayer)
-        
-        let rightBorderLayer = CAShapeLayer()
-        rightBorderLayer.path = rightShapeLayer.path
-        rightBorderLayer.fillColor = UIColor.clear.cgColor
-        rightBorderLayer.strokeColor = themeColor.cgColor
-        rightBorderLayer.lineWidth = 5
-        rightBorderLayer.frame = rightView.bounds
-//        rightView.layer.addSublayer(rightBorderLayer)
+    private func applyArc(to view: UIView, roundedCorners corners: UIRectCorner) {
+        let bounds = view.bounds
+        let cornerRadius = bounds.width * 0.5
+        let path = UIBezierPath(roundedRect: bounds,
+                                byRoundingCorners: corners,
+                                cornerRadii: CGSize(width: cornerRadius, height: 0))
 
-        // Add Gradient Border
-        let lightCgColor = lightThemeColor.cgColor
-        let deepCgColor = themeColor.cgColor
-        
-        let leftGradient = CAGradientLayer()
-        leftGradient.frame = leftBorderLayer.bounds
-        leftGradient.colors = [lightCgColor, deepCgColor]
-        leftGradient.mask = leftBorderLayer
-        leftView.layer.addSublayer(leftGradient)
-        
-        let rightGradient = CAGradientLayer()
-        rightGradient.frame = rightBorderLayer.bounds
-        rightGradient.colors = [lightCgColor, deepCgColor]
-        rightGradient.mask = rightBorderLayer
-        rightView.layer.addSublayer(rightGradient)
-        
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        view.layer.mask = mask
+
+        let border = CAShapeLayer()
+        border.path = path.cgPath
+        border.fillColor = UIColor.clear.cgColor
+        border.strokeColor = UIColor.black.cgColor // mask 只看 alpha；顏色不會顯示
+        border.lineWidth = 5
+        border.frame = bounds
+
+        let gradient = CAGradientLayer()
+        gradient.frame = bounds
+        gradient.colors = [lightThemeColor.cgColor, themeColor.cgColor]
+        gradient.mask = border
+        view.layer.addSublayer(gradient)
     }
         
-    private func setupConstraints() { // 不調整375pt * 812pt
-        
+    private func setupConstraints() {
+        // 基準畫面：iPhone 8 (375 × 667) 之上。其他尺寸做頂部間距微調與 SE 1st gen 縮放。
         if screenHeight > 830 {
-            // 下移（ 原16 ）
+            // iPhone Pro Max / Plus：頂部多預留空間
             lViewTopConstraint.constant = 55
             rViewTopConstraint.constant = 55
-            // 上移（ 原-16 ）
-            lStackBottomConstraint.constant = -32
-            rStackBottomConstraint.constant = -32
-
-        } else if screenHeight > 700 && screenHeight < 810 { // 僅調整 414pt * 736pt
-            // 上移（ 原24、60、16 ）
+        } else if screenHeight > 600 && screenHeight < 810 {
+            // iPhone 標準 / SE 2nd-3rd gen：頂部上移
             opTopConstraint.constant = 0
             dateTopConstraint.constant = 36
             lViewTopConstraint.constant = 0
             rViewTopConstraint.constant = 0
-
-        } else if screenHeight > 600 && screenHeight < 700 {
-            // 上移（ 原24、60、16 ）
-            opTopConstraint.constant = 0
-            dateTopConstraint.constant = 36
-            lViewTopConstraint.constant = 0
-            rViewTopConstraint.constant = 0
-            // 下移（ 原-16 ）
-            lStackBottomConstraint.constant = -8
-            rStackBottomConstraint.constant = -8
-            
         } else if screenHeight < 600 {
-            // 上移（ 原24、60 ）
+            // iPhone SE 1st gen：整體縮放
             opTopConstraint.constant = 0
             dateTopConstraint.constant = 36
-            
             leftView.transform = CGAffineTransform(scaleX: 0.75, y: 0.75).translatedBy(x: -20, y: -80)
             rightView.transform = CGAffineTransform(scaleX: 0.75, y: 0.75).translatedBy(x: 20, y: -80)
             leftStack.transform = CGAffineTransform(scaleX: 0.75, y: 0.75).translatedBy(x: -20, y: 0)
             rightStack.transform = CGAffineTransform(scaleX: 0.75, y: 0.75).translatedBy(x: 20, y: 0)
-            
-            // 下移（ 原-16 ）
-            lStackBottomConstraint.constant = -8
-            rStackBottomConstraint.constant = -8
         }
     }
 
