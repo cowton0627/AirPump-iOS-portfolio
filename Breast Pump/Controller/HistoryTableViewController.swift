@@ -1,163 +1,239 @@
 //
-//  RecordsTableViewController.swift
+//  HistoryTableViewController.swift
 //  Breast Pump
 //
 //  Created by Chunli Cheng on 2021/12/13.
 //
 
 import UIKit
+import Combine
+
+// MARK: - Domain Models
+
+/// 一日歷史紀錄。
+struct HistoryDayRecord: Equatable {
+    let date: Date
+    let sessions: [PumpSession]
+}
+
+// MARK: - Repository
+
+protocol HistoryRecordRepository {
+    var isMock: Bool { get }
+    var historyPublisher: AnyPublisher<[HistoryDayRecord], Never> { get }
+}
+
+final class MockHistoryRecordRepository: HistoryRecordRepository {
+    let isMock = true
+    private let subject: CurrentValueSubject<[HistoryDayRecord], Never>
+
+    var historyPublisher: AnyPublisher<[HistoryDayRecord], Never> {
+        subject.eraseToAnyPublisher()
+    }
+
+    init(now: Date = Date()) {
+        let calendar = Calendar.current
+        func day(_ daysAgo: Int, sessions: [(Int, Int, Int, Int, Int)]) -> HistoryDayRecord {
+            let date = calendar.date(byAdding: .day, value: -daysAgo, to: now) ?? now
+            let pumpSessions: [PumpSession] = sessions.map { tuple in
+                let (hour, minute, leftMl, rightMl, durationMin) = tuple
+                let endTime = calendar.date(bySettingHour: hour, minute: minute, second: 0, of: date) ?? date
+                return PumpSession(
+                    endTime: endTime,
+                    leftAmount: leftMl,
+                    rightAmount: rightMl,
+                    leftDuration: TimeInterval(durationMin * 60),
+                    rightDuration: TimeInterval(durationMin * 60)
+                )
+            }
+            return HistoryDayRecord(date: date, sessions: pumpSessions)
+        }
+        // (hour, minute, leftMl, rightMl, durationMin)
+        let records: [HistoryDayRecord] = [
+            day(1, sessions: [(7, 0, 60, 70, 30), (12, 30, 55, 65, 28), (18, 0, 50, 60, 25)]),
+            day(2, sessions: [(6, 30, 65, 75, 32), (10, 0, 60, 70, 30), (14, 0, 55, 65, 28), (18, 30, 50, 60, 26), (22, 0, 45, 55, 25)]),
+            day(3, sessions: [(4, 0, 70, 80, 35), (7, 30, 65, 75, 32), (11, 0, 60, 70, 30), (14, 30, 55, 65, 28), (17, 30, 50, 60, 26), (20, 0, 45, 55, 25), (22, 30, 40, 50, 22)]),
+        ]
+        subject = CurrentValueSubject(records)
+    }
+}
+
+// MARK: - View State
+
+struct HistoryViewState: Equatable {
+    let sections: [HistorySectionViewState]
+    let isShowingMockData: Bool
+
+    static let empty = HistoryViewState(sections: [], isShowingMockData: false)
+}
+
+struct HistorySectionViewState: Equatable {
+    let dateText: String
+    let rows: [HistorySessionRowViewState]
+}
+
+struct HistorySessionRowViewState: Equatable {
+    let endTimeText: String
+    let totalAmountText: String
+    let leftAmountText: String
+    let leftDurationText: String
+    let rightAmountText: String
+    let rightDurationText: String
+}
+
+// MARK: - ViewModel
+
+final class HistoryViewModel {
+    @Published private(set) var state: HistoryViewState = .empty
+
+    private let repository: HistoryRecordRepository
+    private var cancellables = Set<AnyCancellable>()
+
+    private let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "zh_TW")
+        f.dateFormat = "yyyy.M.d"
+        return f
+    }()
+
+    private let timeFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "zh_TW")
+        f.dateFormat = "a h:mm"
+        return f
+    }()
+
+    init(repository: HistoryRecordRepository) {
+        self.repository = repository
+        bind()
+    }
+
+    private func bind() {
+        repository.historyPublisher
+            .receive(on: DispatchQueue.main)
+            .map { [weak self] records -> HistoryViewState in
+                guard let self else { return .empty }
+                return self.makeState(from: records)
+            }
+            .assign(to: \.state, on: self)
+            .store(in: &cancellables)
+    }
+
+    private func makeState(from records: [HistoryDayRecord]) -> HistoryViewState {
+        let minutes = { (seconds: TimeInterval) in "\(Int(seconds / 60)) 分鐘" }
+        let sections = records.map { day in
+            HistorySectionViewState(
+                dateText: dateFormatter.string(from: day.date),
+                rows: day.sessions.map { session in
+                    HistorySessionRowViewState(
+                        endTimeText: timeFormatter.string(from: session.endTime),
+                        totalAmountText: "\(session.totalAmount) mL",
+                        leftAmountText: "左: \(session.leftAmount) mL",
+                        leftDurationText: minutes(session.leftDuration),
+                        rightAmountText: "右: \(session.rightAmount) mL",
+                        rightDurationText: minutes(session.rightDuration)
+                    )
+                }
+            )
+        }
+        return HistoryViewState(sections: sections, isShowingMockData: repository.isMock)
+    }
+}
+
+// MARK: - View Controller
 
 /// 歷史紀錄
 class HistoryTableViewController: UITableViewController {
 
-    var expendedDataList: [Bool] = [false, false, false]
-    let sectionDataList: [String] = ["2022.01.20", "2022.02.20", "2022.03.20"]
-    let cellDataList: [[String]] = [
-        ["上午 9:00", "下午 13:00", "下午 16:00"],
-        ["上午 6:00", "上午 9:00", "下午 13:00", "下午 16:00", "下午 18:00"],
-        ["上午 4:00", "上午 6:00", "上午 9:00", "下午 13:00", "下午 16:00", "下午 18:00", "下午 20:00"]
-    ]
-    
+    private var viewModel = HistoryViewModel(repository: MockHistoryRecordRepository())
+    private var cancellables = Set<AnyCancellable>()
+    private var sections: [HistorySectionViewState] = []
+    private var expandedFlags: [Bool] = []
+
     private let themeColor = #colorLiteral(red: 0.3764705882, green: 0.6823529412, blue: 0.7607843137, alpha: 1)
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let sectionViewNib: UINib = UINib(nibName: "\(HistorySectionView.self)",
-//                                          bundle: nil)
-//        self.tableView.register(sectionViewNib, forHeaderFooterViewReuseIdentifier: "\(HistorySectionView.self)")
-        self.tableView.register(viewWithClass: HistorySectionView.self)
-        
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        tableView.register(viewWithClass: HistorySectionView.self)
+        bindViewModel()
+    }
+
+    // MARK: - Binding
+    private func bindViewModel() {
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in self?.apply(state) }
+            .store(in: &cancellables)
+    }
+
+    private func apply(_ state: HistoryViewState) {
+        sections = state.sections
+        // 第一次取得資料時將所有區段預設為收合
+        if expandedFlags.count != sections.count {
+            expandedFlags = Array(repeating: false, count: sections.count)
+        }
+        tableView.tableHeaderView = state.isShowingMockData ? makeMockBanner() : nil
+        tableView.reloadData()
+    }
+
+    private func makeMockBanner() -> UIView {
+        let label = UILabel()
+        label.text = "  示範資料 · 連線真機後將自動切換  "
+        label.textAlignment = .center
+        label.backgroundColor = .systemOrange
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 36)
+        return label
     }
 
     // MARK: - DataSource
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return self.expendedDataList.count
+        sections.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // 展開與否判斷 row有多少
-        if self.expendedDataList[section] {
-            return self.cellDataList[section].count
-        } else {
-            return 0
-        }
-        
+        expandedFlags[section] ? sections[section].rows.count : 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(HistoryTableViewCell.self)", for: indexPath) as? HistoryTableViewCell else {
-//            return UITableViewCell()
-//        }
         let cell = tableView.dequeueReusableCell(withClass: HistoryTableViewCell.self, for: indexPath)
-        cell.endTimeLabel.text = self.cellDataList[indexPath.section][indexPath.row]
-//        cell.endTimeLabel.text = "下午 1:30"
-//        cell.totalAmountLabel.text = "140 mL"
-//        cell.leftAmountLabel.text = "左: 60 mL"
-//        cell.leftDurationLabel.text = "30 分鐘"
-//        cell.rightAmountLabel.text = "右: 80 mL"
-//        cell.rightDurationLabel.text = "35 分鐘"
-
+        let row = sections[indexPath.section].rows[indexPath.row]
+        cell.endTimeLabel.text = row.endTimeText
+        cell.totalAmountLabel.text = row.totalAmountText
+        cell.leftAmountLabel.text = row.leftAmountText
+        cell.leftDurationLabel.text = row.leftDurationText
+        cell.rightAmountLabel.text = row.rightAmountText
+        cell.rightDurationLabel.text = row.rightDurationText
         return cell
     }
-    
-    
+
     // MARK: - Delegate
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        80
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 80
+        80
     }
-    
+
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        guard let sectionView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "\(HistorySectionView.self)") as? HistorySectionView else {
-//            return UIView()
-//        }
         let headerView = tableView.dequeueReusableHeaderFooterView(withClass: HistorySectionView.self)
-        
-        headerView.isExpanded = self.expendedDataList[section]
+        headerView.isExpanded = expandedFlags[section]
         headerView.buttonTag = section
         headerView.delegate = self
-        
-        // 圖示 "△" : "▽"
-        headerView.expandButton.setTitle(
-            self.expendedDataList[section] == true ? "▲" : "▼" , for: .normal)
-        headerView.expandButton.setTitleColor(.black, for: .normal)
+        headerView.expandButton.setTitle(expandedFlags[section] ? "▲" : "▼", for: .normal)
         headerView.expandButton.setTitleColor(themeColor, for: .normal)
-        // 日期
-        headerView.dateLabel.text = self.sectionDataList[section]
-        
+        headerView.dateLabel.text = sections[section].dateText
         return headerView
     }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if isExpendDataList[indexPath.section] {
-//            tableView.reloadSections([indexPath.section], with: .automatic)
-//        }
-//        isExpendDataList[indexPath.section] = !isExpendDataList[indexPath.section]
-
-       
-    }
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }
 
 extension HistoryTableViewController: HistorySectionViewDelegate {
     func sectionView(_ sectionView: HistorySectionView,
                      tappedTag: Int, isExpanded: Bool) {
-//        tableView.beginUpdates()
-        self.expendedDataList[tappedTag] = !isExpanded
-        self.tableView.reloadSections(IndexSet(integer: tappedTag), with: .automatic)
-//        tableView.endUpdates()
+        expandedFlags[tappedTag] = !isExpanded
+        tableView.reloadSections(IndexSet(integer: tappedTag), with: .automatic)
     }
-    
 }
