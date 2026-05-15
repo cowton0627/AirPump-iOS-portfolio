@@ -12,7 +12,7 @@ class MainRecordViewController: UIViewController {
     // MARK: - Properties
     private let screenHeight = UIScreen.main.bounds.height
     // navigationBar用圖顯示原樣
-    private let prefMenuImage = UIImage(named: "prefMenu")?.withRenderingMode(.alwaysOriginal)
+    private let menuIcon = UIImage(systemName: "line.3.horizontal")
     private let selectedColor = #colorLiteral(red: 0.9803921569, green: 0.5960784314, blue: 0.5960784314, alpha: 1)
     private let idleColor = #colorLiteral(red: 0.9411764706, green: 0.9411764706, blue: 0.9411764706, alpha: 1)
     private let customColor = #colorLiteral(red: 0.4392156863, green: 0.4392156863, blue: 0.4392156863, alpha: 1)
@@ -78,7 +78,7 @@ class MainRecordViewController: UIViewController {
     // MARK: - Methods
     private func configureUI() {
         // 設定navigationBar顯圖, 與buttonAction
-        let leftBarItem = UIBarButtonItem(image: prefMenuImage, style: .plain, target: .none, action: nil)
+        let leftBarItem = UIBarButtonItem(image: menuIcon, style: .plain, target: .none, action: nil)
         navigationItem.setLeftBarButton(leftBarItem, animated: true)
 
         for recordView in recordViews {

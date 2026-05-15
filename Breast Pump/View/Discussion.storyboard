@@ -20,7 +20,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="AirPump" largeTitleDisplayMode="always" id="uoM-FF-4Tf">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="prefMenu" id="BTI-oJ-Kmc"/>
+                        <barButtonItem key="leftBarButtonItem" image="line.3.horizontal" catalog="system" id="BTI-oJ-Kmc"/>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xjc-kx-kON" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -49,7 +49,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="prefMenu" width="40" height="40"/>
+        <image name="line.3.horizontal" catalog="system" width="40" height="40"/>
         <image name="text.bubble.fill" catalog="system" width="128" height="110"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

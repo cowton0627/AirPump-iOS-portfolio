@@ -22,7 +22,7 @@ class PersonalPreferenceTableViewController: UITableViewController {
         }
     }
     // navigationBar用圖顯示原樣
-    private let prefMenuImage = UIImage(named: "prefMenu")?.withRenderingMode(.alwaysOriginal)
+    private let menuIcon = UIImage(systemName: "line.3.horizontal")
     
 //    private let phoneBeepCellIndexPath    = IndexPath(row: 0, section: 0)
     private let leftBeepIndexPath     = IndexPath(row: 1, section: 0)
@@ -68,7 +68,7 @@ class PersonalPreferenceTableViewController: UITableViewController {
         view.backgroundColor = systemGrayFive
 
         // 設定navigationBar顯圖, 與buttonAction
-        let leftBarItem = UIBarButtonItem(image: prefMenuImage, style: .plain, target: .none, action: nil)
+        let leftBarItem = UIBarButtonItem(image: menuIcon, style: .plain, target: .none, action: nil)
         navigationItem.setLeftBarButton(leftBarItem, animated: true)
     }
     

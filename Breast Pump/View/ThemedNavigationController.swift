@@ -12,6 +12,8 @@ class ThemedNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // 讓 barButtonItem 上的 SF Symbol / template image 染成白色
+        UINavigationBar.appearance().tintColor = .white
         /*
             iOS13以後的版本(如: iOS14、iOS15)採用barAppearence來調整navigationBar時,
             需注意:

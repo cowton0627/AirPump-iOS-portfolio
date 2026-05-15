@@ -304,7 +304,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="AirPump" id="FHl-qp-YaD">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="prefMenu" id="s9x-FT-Ycn"/>
+                        <barButtonItem key="leftBarButtonItem" image="line.3.horizontal" catalog="system" id="s9x-FT-Ycn"/>
                     </navigationItem>
                     <connections>
                         <outlet property="beepTimeTextField" destination="CC9-GT-dzL" id="Q4z-Dw-7XF"/>
@@ -337,7 +337,7 @@
     </scenes>
     <resources>
         <image name="bell.fill" catalog="system" width="128" height="124"/>
-        <image name="prefMenu" width="40" height="40"/>
+        <image name="line.3.horizontal" catalog="system" width="40" height="40"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

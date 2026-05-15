@@ -11,7 +11,7 @@ import UIKit
 class VideoViewController: UIViewController {
     // MARK: - Properties
     // navigationBar用圖顯示原樣
-    private let prefMenuImage = UIImage(named: "prefMenu")?.withRenderingMode(.alwaysOriginal)
+    private let menuIcon = UIImage(systemName: "line.3.horizontal")
     
     private let rowHeight = 43.5
 //    private let leftBarImage = UIImage(systemName: "plus")
@@ -32,7 +32,7 @@ class VideoViewController: UIViewController {
     // MARK: - Methods
     private func configureUI() {
         // 設定navigationBar顯圖, 與buttonAction
-        let leftBarItem = UIBarButtonItem(image: prefMenuImage,
+        let leftBarItem = UIBarButtonItem(image: menuIcon,
                                           style: .plain,
                                           target: .none,
                                           action: nil)
