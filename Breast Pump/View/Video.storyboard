@@ -112,7 +112,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="AirPump" largeTitleDisplayMode="always" id="Ojc-d4-Lux">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="prefMenu" id="3gD-EV-aRJ"/>
+                        <barButtonItem key="leftBarButtonItem" image="line.3.horizontal" catalog="system" id="3gD-EV-aRJ"/>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="fzD-Ig-cVd" id="DgL-MH-oLr"/>
@@ -414,7 +414,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="AirPump" largeTitleDisplayMode="always" id="j8i-oJ-iw8">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="prefMenu" id="ggS-yr-OGq"/>
+                        <barButtonItem key="leftBarButtonItem" image="line.3.horizontal" catalog="system" id="ggS-yr-OGq"/>
                     </navigationItem>
                     <connections>
                         <outlet property="backButton" destination="dx0-Bf-Wyd" id="l22-O2-HMm"/>
@@ -505,7 +505,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="AirPump" largeTitleDisplayMode="always" id="nTU-iT-6q0">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="prefMenu" id="qnO-vJ-4B6"/>
+                        <barButtonItem key="leftBarButtonItem" image="line.3.horizontal" catalog="system" id="qnO-vJ-4B6"/>
                     </navigationItem>
                     <connections>
                         <outlet property="backButton" destination="86O-pS-UUA" id="TEB-w9-BYT"/>
@@ -524,7 +524,7 @@
         <image name="ellipsis.circle" catalog="system" width="128" height="121"/>
         <image name="forward.end.fill" catalog="system" width="128" height="102"/>
         <image name="pause.circle" catalog="system" width="128" height="121"/>
-        <image name="prefMenu" width="40" height="40"/>
+        <image name="line.3.horizontal" catalog="system" width="40" height="40"/>
         <image name="rectangle.grid.3x2" catalog="system" width="128" height="101"/>
         <image name="scribble" catalog="system" width="128" height="118"/>
         <image name="square.and.arrow.down" catalog="system" width="121" height="128"/>
