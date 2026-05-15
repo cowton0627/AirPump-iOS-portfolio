@@ -10,48 +10,29 @@ import UIKit
 /// 討論區頁面
 class DiscussionViewController: UIViewController {
     // MARK: - Properties
-    // navigationBar用圖顯示原樣
-    private let prefMenuImage = UIImage(named: "prefMenu")?.withRenderingMode(.alwaysOriginal)
-    
-//    private lazy var alertView: ReusableAlertView = {
-//        let alertView = ReusableAlertView.instantiateFromNib()
-//        alertView.delegate = self
-//        return alertView
-//    }()
-//    private let alertView = ReusableAlertView.instantiateFromNib()
+    private let menuIcon = UIImage(systemName: "line.3.horizontal")
+
+    private weak var currentAlertView: ReusableAlertView?
+
     private lazy var backgroundView: UIView = {
         let view = UIView(frame: view.bounds)
         view.backgroundColor = .black
         view.alpha = 0.7
         return view
     }()
-    
-//    private var vcIsOnScreen: Bool {
-//        viewIfLoaded?.window != nil && UIApplication.shared.applicationState == .active }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
-//        if self.presentedViewController == nil {
-//            AlertManager.showConfirmAlert(title: "", subtitle: "敬請期待")
-//        }
-        if self.presentedViewController == nil {
-            showAlertView()
-        }
-//        let vc = UIStoryboard(name: .LowBatteryStoryboard).instantiateVC(withClass: LowBatteryAlertViewController.self)
-//        vc.delegate = self
-//        vc.modalTransitionStyle = .crossDissolve
-//        vc.modalPresentationStyle = .overCurrentContext
-//        present(vc, animated: true, completion: nil)
-        
-        
-        
-        
+        super.viewDidAppear(animated)
+        // 切回此頁時，若 alert 已存在就不重複加入（避免疊加）
+        guard presentedViewController == nil, currentAlertView == nil else { return }
+        showAlertView()
     }
-    
+
     private func showAlertView() {
         let alertView = ReusableAlertView.instantiateFromNib()
         alertView.delegate = self
@@ -60,11 +41,12 @@ class DiscussionViewController: UIViewController {
                                 lhsText: "確認", rhsText: nil)
         view.addSubview(backgroundView)
         view.addSubview(alertView)
+        currentAlertView = alertView
     }
     
     private func configureUI() {
         // 設定navigationBar顯圖, 與buttonAction
-        let leftBarItem = UIBarButtonItem(image: prefMenuImage, style: .plain, target: .none, action: nil)
+        let leftBarItem = UIBarButtonItem(image: menuIcon, style: .plain, target: .none, action: nil)
         navigationItem.setLeftBarButton(leftBarItem, animated: true)
     }
     
@@ -80,23 +62,14 @@ class DiscussionViewController: UIViewController {
 
 // MARK: - ReusableAlertViewDelegate
 extension DiscussionViewController: ReusableAlertViewDelegate {
+    // ReusableAlertView 的 IBAction 會 defer removeFromSuperview()，
+    // currentAlertView 是 weak ref，被釋放後會自動 nil。這裡只需處理 backgroundView。
     func buttonTapped() {
-        print("buttonTapped.")
         backgroundView.removeFromSuperview()
     }
-    
-    func lhsButtonTapped() {
-        print("lhsButtonTapped.")
-//        self.presentedViewController?.dismiss(animated: true)
-//        alertView.removeFromSuperview()
-//        backgroundView.removeFromSuperview()
-    }
-    
-    func rhsButtonTapped() {
-        print("rhsButtonTapped.")
-//        alertView.removeFromSuperview()
-//        backgroundView.removeFromSuperview()
-    }
+
+    func lhsButtonTapped() {}
+    func rhsButtonTapped() {}
 }
 
 extension DiscussionViewController: LowBatteryAlertViewControllerDelegate {
