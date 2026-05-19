@@ -111,11 +111,10 @@ final class HistoryViewModel {
     private func bind() {
         repository.historyPublisher
             .receive(on: DispatchQueue.main)
-            .map { [weak self] records -> HistoryViewState in
-                guard let self else { return .empty }
-                return self.makeState(from: records)
+            .sink { [weak self] records in
+                guard let self else { return }
+                self.state = self.makeState(from: records)
             }
-            .assign(to: \.state, on: self)
             .store(in: &cancellables)
     }
 

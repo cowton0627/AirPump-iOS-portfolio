@@ -107,11 +107,10 @@ final class DiscoveryViewModel {
     private func bind() {
         repository.statsPublisher
             .receive(on: DispatchQueue.main)
-            .map { [weak self] stats -> DiscoveryViewState in
-                guard let self else { return .empty }
-                return self.makeState(from: stats)
+            .sink { [weak self] stats in
+                guard let self else { return }
+                self.state = self.makeState(from: stats)
             }
-            .assign(to: \.state, on: self)
             .store(in: &cancellables)
     }
 

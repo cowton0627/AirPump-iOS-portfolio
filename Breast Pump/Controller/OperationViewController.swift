@@ -115,6 +115,7 @@ class OperationViewController: UIViewController {
     @IBOutlet weak var rViewTopConstraint: NSLayoutConstraint!
     
     private var didConfigureArcs = false
+    private var didSetupListeners = false
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -133,6 +134,10 @@ class OperationViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         bleManager.stopScanning()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func viewDidLayoutSubviews() {
@@ -1779,6 +1784,8 @@ class OperationViewController: UIViewController {
 // MARK: - Notification Center
 private extension OperationViewController {
     func setupListener() {
+        guard !didSetupListeners else { return }
+        didSetupListeners = true
         // 取回特徵字典
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(retrieveCharDict(noti:)),
