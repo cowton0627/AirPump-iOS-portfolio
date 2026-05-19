@@ -1672,6 +1672,7 @@ class OperationViewController: UIViewController {
         for playPauseBtn in playPauseButton {
             playPauseBtn.setImage(UIImage(named: "play"), for: .normal)
         }
+        setupPumpControlButtons()
         
         // 模式buttons
         setupModeButtons(autoButton)
@@ -1688,6 +1689,30 @@ class OperationViewController: UIViewController {
         }
         
         setupConstraints()
+    }
+
+    private func setupPumpControlButtons() {
+        let buttons = decreaseButton + increaseButton + playPauseButton
+
+        for button in buttons {
+            button.adjustsImageWhenHighlighted = false
+            button.addTarget(self, action: #selector(pumpControlTouchDown(_:)), for: [.touchDown, .touchDragEnter])
+            button.addTarget(self, action: #selector(pumpControlTouchUp(_:)), for: [.touchUpInside, .touchUpOutside, .touchCancel, .touchDragExit])
+        }
+    }
+
+    @objc private func pumpControlTouchDown(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.08, delay: 0, options: [.beginFromCurrentState, .allowUserInteraction]) {
+            sender.alpha = 0.72
+            sender.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
+        }
+    }
+
+    @objc private func pumpControlTouchUp(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.14, delay: 0, options: [.beginFromCurrentState, .allowUserInteraction]) {
+            sender.alpha = 1.0
+            sender.transform = .identity
+        }
     }
     
     private func setupModeButtons(_ buttons: [UIButton]) {
