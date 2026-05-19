@@ -128,7 +128,7 @@
         <scene sceneID="MzE-mZ-Cyx">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="t3z-nx-nTF" customClass="ThemedNavigationController" customModule="Breast_Pump" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="紀錄" image="rectangle.3.offgrid.fill" catalog="system" id="Z2H-he-Mp9"/>
+                    <tabBarItem key="tabBarItem" title="紀錄" image="rectangle.3.group.fill" catalog="system" id="Z2H-he-Mp9"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KVx-mC-foz">
@@ -477,7 +477,7 @@
     </scenes>
     <resources>
         <image name="line.3.horizontal" catalog="system" width="40" height="40"/>
-        <image name="rectangle.3.offgrid.fill" catalog="system" width="128" height="81"/>
+        <image name="rectangle.3.group.fill" catalog="system" width="128" height="81"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
