@@ -13,7 +13,7 @@ class RLM_BreastPump: Object {
     
     dynamic var uuid: String = UUID().uuidString
     /// 主鍵
-    dynamic var primaryKey: String = ""
+    dynamic var primaryKey: String = UUID().uuidString
     override static func primaryKey() -> String? { return "primaryKey" }
 
     /// 該筆紀錄的使用者ID
@@ -41,14 +41,4 @@ class RLM_BreastPump: Object {
     /// 結束時模式
     dynamic var mode: String = ""
 
-    
-}
-
-extension RLM_BreastPump {
-    
-    private func updatePrimaryKey() {
-        // 每150秒，相同UUID、user不重複記錄
-        primaryKey = "\(uuid)" + "\(userId)" + Int((date.timeIntervalSince1970)/60*60).description
-    }
-    
 }

@@ -136,11 +136,10 @@ final class TodayViewModel {
     private func bind() {
         repository.todayRecordPublisher
             .receive(on: DispatchQueue.main)
-            .map { [weak self] record -> TodayViewState in
-                guard let self else { return .empty }
-                return self.makeState(from: record)
+            .sink { [weak self] record in
+                guard let self else { return }
+                self.state = self.makeState(from: record)
             }
-            .assign(to: \.state, on: self)
             .store(in: &cancellables)
     }
 

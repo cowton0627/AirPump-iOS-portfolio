@@ -15,12 +15,14 @@ class BLEConnectionManager: NSObject {
     
     /// 使用自訂 queue，避免多執行緒問題
     private let bleQueue = DispatchQueue(label: "bluetooth", qos: .userInitiated)
+    private let bleQueueKey = DispatchSpecificKey<Void>()
 
     /// CBCentralManager 物件，" 若 "使用 restore 選項，可在 App 被系統殺掉後自動恢復連線
     private lazy var manager = CBCentralManager(delegate: self, queue: bleQueue, options: [CBCentralManagerOptionRestoreIdentifierKey: "main"])
 
     private override init() {
         super.init()
+        bleQueue.setSpecific(key: bleQueueKey, value: ())
         /*
            manager.delegate 應該不需在此處賦值, 否則失去 private lazy var 的作用,
            且沒有用到 delegate 的 func
@@ -32,8 +34,16 @@ class BLEConnectionManager: NSObject {
     private let deviceLimitCount = 2
     
     /// 掃描到的特徵，以 CBUUID 作為Key
-    private(set) var charDict = [CBUUID: CBCharacteristic]()
-    private(set) var charLastDict = [CBUUID: CBCharacteristic]()
+    private var charDictStorage = [CBUUID: CBCharacteristic]()
+    private var charLastDictStorage = [CBUUID: CBCharacteristic]()
+    
+    var charDict: [CBUUID: CBCharacteristic] {
+        readOnBLEQueue { charDictStorage }
+    }
+    
+    var charLastDict: [CBUUID: CBCharacteristic] {
+        readOnBLEQueue { charLastDictStorage }
+    }
     
     /// 已偵測裝置字典，以 UUIDString 作為Key
     private var scannedDeviceDict = [String: BLEDevice]()
@@ -53,24 +63,31 @@ class BLEConnectionManager: NSObject {
 //    var connectedUnidentifiedDeviceDict: [String: BLEDevice] {
 //        connectedDeviceDict.filter { $0.value.moduleType == nil }}
     
+    private func readOnBLEQueue<T>(_ work: () -> T) -> T {
+        if DispatchQueue.getSpecific(key: bleQueueKey) != nil {
+            return work()
+        }
+        return bleQueue.sync(execute: work)
+    }
+    
 }
 
 // MARK: - Bluetooth
 extension BLEConnectionManager {
     /// 藍芽是否開啟
-    var isBluetoothOn: Bool { manager.state == .poweredOn }
+    var isBluetoothOn: Bool { readOnBLEQueue { manager.state == .poweredOn } }
     
     /// 藍芽狀態
-    var bluetoothState: CBManagerState { manager.state }
+    var bluetoothState: CBManagerState { readOnBLEQueue { manager.state } }
     
     /// 已偵測裝置清單陣列（值由字典來，所以字典需做狀態處理）
-    var scannedDevices: [BLEDevice] { Array(scannedDeviceDict.values) }
+    var scannedDevices: [BLEDevice] { readOnBLEQueue { Array(scannedDeviceDict.values) } }
 
     /// 連線中裝置陣列
-    var connectingDevices: [BLEDevice] { Array(connectingDeviceDict.values) }
+    var connectingDevices: [BLEDevice] { readOnBLEQueue { Array(connectingDeviceDict.values) } }
     
     /// 已連線裝置陣列
-    var connectedDevices: [BLEDevice] { Array(connectedDeviceDict.values) }
+    var connectedDevices: [BLEDevice] { readOnBLEQueue { Array(connectedDeviceDict.values) } }
         
     /// 已連線且知道模組型號的裝置陣列
 //    var connectedIdentifiedDevices: [BLEDevice] { Array(connectedIdentifiedDeviceDict.values) }
@@ -319,11 +336,11 @@ extension BLEConnectionManager: CBCentralManagerDelegate {
         
         // 已連線裝置先用charDict, 後用charLastDict
         // 哪個裝置斷連, 理應清空該裝置特徵字典, 但晚點清空可以做其他事
-        if charDict.keys.contains(deviceUUID) {
-            charDict = [:]
+        if charDictStorage.keys.contains(deviceUUID) {
+            charDictStorage = [:]
 //            broadcastCharDictChanged()
-        } else if charLastDict.keys.contains(deviceUUID) {
-            charLastDict = [:]
+        } else if charLastDictStorage.keys.contains(deviceUUID) {
+            charLastDictStorage = [:]
 //            broadcastCharLastDictChanged()
         }
         
@@ -401,30 +418,30 @@ extension BLEConnectionManager: CBPeripheralDelegate {
         let uuidStr = peripheral.identifier.uuidString
         let deviceUUID = CBUUID(string: uuidStr)
         
-        if charDict.isEmpty && charLastDict.isEmpty { // 裝第一連線裝置的MACHINE_SERVICE用
+        if charDictStorage.isEmpty && charLastDictStorage.isEmpty { // 裝第一連線裝置的MACHINE_SERVICE用
             charDictValidate(peripheral, service: service)
             
-        } else if !charDict.isEmpty && charLastDict.isEmpty {
-            if !charDict.keys.contains(deviceUUID) { // 裝第二連線裝置的MACHINE_SERVICE用
+        } else if !charDictStorage.isEmpty && charLastDictStorage.isEmpty {
+            if !charDictStorage.keys.contains(deviceUUID) { // 裝第二連線裝置的MACHINE_SERVICE用
                 charLastDictValidate(peripheral, service: service)
                 
-            } else if charDict.keys.contains(deviceUUID) { // 裝第一連線裝置的BATTERY_SERVICE用
+            } else if charDictStorage.keys.contains(deviceUUID) { // 裝第一連線裝置的BATTERY_SERVICE用
                 charDictValidate(peripheral, service: service)
             }
             
-        } else if charDict.isEmpty && !charLastDict.isEmpty {
-            if !charLastDict.keys.contains(deviceUUID) { // 裝第二連線裝置的MACHINE_SERVICE用
+        } else if charDictStorage.isEmpty && !charLastDictStorage.isEmpty {
+            if !charLastDictStorage.keys.contains(deviceUUID) { // 裝第二連線裝置的MACHINE_SERVICE用
                 charDictValidate(peripheral, service: service)
                 
-            } else if charLastDict.keys.contains(deviceUUID) { // 裝第一連線裝置的BATTERY_SERVICE用
+            } else if charLastDictStorage.keys.contains(deviceUUID) { // 裝第一連線裝置的BATTERY_SERVICE用
                 charLastDictValidate(peripheral, service: service)
                 
             }
-        } else if !charDict.isEmpty && !charLastDict.isEmpty { // 裝第二連線裝置的BATTERY_SERVICE用
-            if charDict.keys.contains(deviceUUID) { // 第一連線裝置斷連後, 重連變第二連線裝置
+        } else if !charDictStorage.isEmpty && !charLastDictStorage.isEmpty { // 裝第二連線裝置的BATTERY_SERVICE用
+            if charDictStorage.keys.contains(deviceUUID) { // 第一連線裝置斷連後, 重連變第二連線裝置
                 charDictValidate(peripheral, service: service)
                 
-            } else if charLastDict.keys.contains(deviceUUID) {
+            } else if charLastDictStorage.keys.contains(deviceUUID) {
                 charLastDictValidate(peripheral, service: service)
                 
             }
@@ -440,13 +457,13 @@ extension BLEConnectionManager: CBPeripheralDelegate {
             let uuidStr = uuid.uuidString
             print("\(peripheral.name!) 的特徵uuid：\(uuidStr)")
             
-            charDict[uuid] = characteristic
+            charDictStorage[uuid] = characteristic
             
             // 將裝置uuid作為字典重要key, 便可以uuid判斷要用哪個字典
             if uuid == GATT.DEVICE_UUID {
-                charDict.removeValue(forKey: uuid)
+                charDictStorage.removeValue(forKey: uuid)
                 let deviceUUID = CBUUID(string: peripheral.identifier.uuidString)
-                charDict[deviceUUID] = characteristic
+                charDictStorage[deviceUUID] = characteristic
             }
             // FIXME: 取用的特徵, 若已知要取用它的讀或寫, 就不用每個特徵都進到流程判斷
             if characteristic.properties.contains(.read) {
@@ -467,13 +484,13 @@ extension BLEConnectionManager: CBPeripheralDelegate {
             let uuidStr = uuid.uuidString
             print("\(peripheral.name) 其特徵 uuid：\(uuidStr)")
             
-            charLastDict[uuid] = characteristic
+            charLastDictStorage[uuid] = characteristic
             
             // 將裝置uuid作為字典重要key, 便可以uuid判斷要用哪個字典
             if uuid == GATT.DEVICE_UUID {
-                charLastDict.removeValue(forKey: uuid)
+                charLastDictStorage.removeValue(forKey: uuid)
                 let deviceUUID = CBUUID(string: peripheral.identifier.uuidString)
-                charLastDict[deviceUUID] = characteristic
+                charLastDictStorage[deviceUUID] = characteristic
             }
             if characteristic.properties.contains(.read) {
                 peripheral.readValue(for: characteristic)
@@ -507,9 +524,9 @@ extension BLEConnectionManager: CBPeripheralDelegate {
             return
         }
         let deviceUUID = CBUUID(string: uuid)
-        if charDict.keys.contains(deviceUUID) {
+        if charDictStorage.keys.contains(deviceUUID) {
             broadcastCharDictChanged()
-        } else if charLastDict.keys.contains(deviceUUID) {
+        } else if charLastDictStorage.keys.contains(deviceUUID) {
             broadcastCharLastDictChanged()
         }
     }
