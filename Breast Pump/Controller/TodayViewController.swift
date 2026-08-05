@@ -175,7 +175,7 @@ final class TodayViewModel {
 class TodayViewController: UIViewController {
     // MARK: - Properties
     private let screenHeight = UIScreen.main.bounds.height
-    private var viewModel = TodayViewModel(repository: MockTodayRecordRepository())
+    private var viewModel: TodayViewModel!
     private var cancellables = Set<AnyCancellable>()
     private var sessionRows: [SessionRowViewState] = []
     private let dateLabelDefaultColor: UIColor = #colorLiteral(red: 0.4705882353, green: 0.4705882353, blue: 0.4705882353, alpha: 1)
@@ -201,10 +201,27 @@ class TodayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        bindViewModel()
+        configureDataSource()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(demoModeDidChange),
+                                               name: .portfolioDemoModeDidChange,
+                                               object: nil)
     }
 
     // MARK: - Binding
+    @objc private func demoModeDidChange() {
+        configureDataSource()
+    }
+
+    private func configureDataSource() {
+        cancellables.removeAll()
+        let repository: TodayRecordRepository = PortfolioDemoMode.isEnabled
+            ? MockTodayRecordRepository()
+            : RealmTodayRecordRepository()
+        viewModel = TodayViewModel(repository: repository)
+        bindViewModel()
+    }
+
     private func bindViewModel() {
         viewModel.$state
             .receive(on: DispatchQueue.main)

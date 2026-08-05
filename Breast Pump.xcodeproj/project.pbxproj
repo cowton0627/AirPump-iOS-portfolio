@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1B2C3DA0123456789ABCDEF /* PortfolioDemoMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3DB0123456789ABCDEF /* PortfolioDemoMode.swift */; };
+		A1B2C3D40123456789ABCDEF /* RealmPumpRecordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D50123456789ABCDEF /* RealmPumpRecordRepository.swift */; };
 		CE39952C2851E1C100899B94 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE39952B2851E1C100899B94 /* APIManager.swift */; };
 		CE414E602845A0F100C076BA /* LowBatteryStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE414E5F2845A0F100C076BA /* LowBatteryStoryboard.storyboard */; };
 		CE414E622845A13200C076BA /* LowBatteryAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE414E612845A13200C076BA /* LowBatteryAlertViewController.swift */; };
@@ -71,6 +73,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A1B2C3DB0123456789ABCDEF /* PortfolioDemoMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDemoMode.swift; sourceTree = "<group>"; };
+		A1B2C3D70123456789ABCDEF /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
+		A1B2C3D80123456789ABCDEF /* Signing.local.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.local.xcconfig.example; sourceTree = "<group>"; };
+		A1B2C3D50123456789ABCDEF /* RealmPumpRecordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmPumpRecordRepository.swift; sourceTree = "<group>"; };
 		CE39952B2851E1C100899B94 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		CE414E5F2845A0F100C076BA /* LowBatteryStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LowBatteryStoryboard.storyboard; sourceTree = "<group>"; };
 		CE414E612845A13200C076BA /* LowBatteryAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowBatteryAlertViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +154,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A1B2C3D90123456789ABCDEF /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D70123456789ABCDEF /* Signing.xcconfig */,
+				A1B2C3D80123456789ABCDEF /* Signing.local.xcconfig.example */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		A1B2C3D60123456789ABCDEF /* Records */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D50123456789ABCDEF /* RealmPumpRecordRepository.swift */,
+			);
+			path = Records;
+			sourceTree = "<group>";
+		};
 		CE414E632845BCC800C076BA /* PickerView */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,6 +220,7 @@
 		F75FE9F8278D16F00077EF18 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				A1B2C3DB0123456789ABCDEF /* PortfolioDemoMode.swift */,
 				CE98DE132836340F00407EC6 /* UserNotification */,
 				CEA268FA282DF66800828C07 /* Stopwatch.swift */,
 				CEA268FE282E384300828C07 /* CustomTimer.swift */,
@@ -225,6 +249,7 @@
 		F7A4708F2766FD12001748AC = {
 			isa = PBXGroup;
 			children = (
+				A1B2C3D90123456789ABCDEF /* Config */,
 				F7A4709A2766FD12001748AC /* Breast Pump */,
 				F7A470992766FD12001748AC /* Products */,
 			);
@@ -324,6 +349,7 @@
 			isa = PBXGroup;
 			children = (
 				F7C81CD6278592DB00D2967C /* Bluetooth */,
+				A1B2C3D60123456789ABCDEF /* Records */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -423,6 +449,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1B2C3DA0123456789ABCDEF /* PortfolioDemoMode.swift in Sources */,
 				F764B77C27B011110050ABA9 /* BLEDevice.swift in Sources */,
 				F764B7BA27B4BBCE0050ABA9 /* Data+Ext.swift in Sources */,
 				F79847C927C87C3C00B1BA7F /* DiscussionViewController.swift in Sources */,
@@ -441,6 +468,7 @@
 				F7A4709C2766FD12001748AC /* AppDelegate.swift in Sources */,
 				F7A470DD27684450001748AC /* ThemedNavigationController.swift in Sources */,
 				CEE428462840A92200E5D700 /* CustomBottomView.swift in Sources */,
+				A1B2C3D40123456789ABCDEF /* RealmPumpRecordRepository.swift in Sources */,
 				CEAA03D727E8416100DB7D42 /* HistoryTableViewCell.swift in Sources */,
 				F79847C027C70D0400B1BA7F /* DefaultStringInterpolation+Ext.swift in Sources */,
 				F7A470D427673218001748AC /* DiscoveryTableViewController.swift in Sources */,
@@ -612,13 +640,13 @@
 		};
 		F7A470AD2766FD15001748AC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1B2C3D70123456789ABCDEF /* Signing.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 26;
-				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Breast Pump/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -626,7 +654,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.AirPumpPortfolio";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.AirPumpPortfolio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -636,6 +664,7 @@
 		};
 		F7A470AE2766FD15001748AC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1B2C3D70123456789ABCDEF /* Signing.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -643,7 +672,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 26;
-				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Breast Pump/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -651,7 +679,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.AirPumpPortfolio";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.AirPumpPortfolio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

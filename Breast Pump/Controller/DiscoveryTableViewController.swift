@@ -285,7 +285,7 @@ class DiscoveryTableViewController: UITableViewController {
         }
     }
 
-    private var viewModel = DiscoveryViewModel(repository: MockDiscoveryStatsRepository())
+    private var viewModel: DiscoveryViewModel!
     private var cancellables = Set<AnyCancellable>()
     private var state: DiscoveryViewState = .empty
 
@@ -295,6 +295,23 @@ class DiscoveryTableViewController: UITableViewController {
         tableView.register(KPICell.self, forCellReuseIdentifier: KPICell.reuseID)
         tableView.sectionHeaderHeight = 36
         tableView.separatorStyle = .none
+        configureDataSource()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(demoModeDidChange),
+                                               name: .portfolioDemoModeDidChange,
+                                               object: nil)
+    }
+
+    @objc private func demoModeDidChange() {
+        configureDataSource()
+    }
+
+    private func configureDataSource() {
+        cancellables.removeAll()
+        let repository: DiscoveryStatsRepository = PortfolioDemoMode.isEnabled
+            ? MockDiscoveryStatsRepository()
+            : RealmDiscoveryStatsRepository()
+        viewModel = DiscoveryViewModel(repository: repository)
         bindViewModel()
     }
 
@@ -313,7 +330,7 @@ class DiscoveryTableViewController: UITableViewController {
 
     private func makeMockBanner() -> UIView {
         let label = UILabel()
-        label.text = "  示範資料 · 連線真機後將自動切換  "
+        label.text = "  示範資料 · 可於偏好設定切換  "
         label.textAlignment = .center
         label.backgroundColor = .systemOrange
         label.textColor = .white

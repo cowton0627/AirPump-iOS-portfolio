@@ -4,22 +4,22 @@
 
 ---
 
-## 1. 從 AirPump Pump 原 repo fork 為作品集
+## 1. 將既有 iOS 專案整理為作品集
 
-**選擇**：clone 一份 → 拔掉 git remote → 重新 `git init` → 清掉公司識別。
+**選擇**：建立獨立 repository，移除原始 remote、組織識別與不適合公開的資料，再以中性品牌 AirPump 呈現。
 
 **為什麼**：
-* 原 repo 屬私人 repository，作品集要放 GitHub public
-* 想保留程式碼歷史 → 但保留公司 author 名（`AirPump`）會洩漏原始組織身份
-* 想避免不小心 push 回公司 server
+* 公開作品集不應暴露原始組織、內部服務或私人文件
+* 獨立 repository 可避免誤推到原始 remote
+* 中性命名讓內容聚焦在 UIKit、BLE 與資料架構
 
 **怎麼處理識別**：
-* `DEVELOPMENT_TEAM` → 空字串（讓 Xcode 開啟時選自己 team）
-* `Bundle ID` → `com.example.AirPumpPortfolio`
-* Swift 檔頭 `Created by AirPump` → `Created by Chunli Cheng`（19 個檔）
-* `Info.plist` 顯示名稱、storyboard navigation title 從 `AirPump PUMP` → `AirPump`
+* 公開 Bundle ID 使用 `com.example.AirPumpPortfolio`
+* `Config/Signing.xcconfig` 可選擇性載入被忽略的 `Signing.local.xcconfig`
+* 個人 Apple Developer Team ID 只留在本機，不進 tracked files
+* App 顯示名稱與 navigation title 統一為 `AirPump`
 
-**保留沒清的**：4 個公司內部文件（上架資訊、source code .docx、UUID 截圖）放在本機 `.gitignore` 排除，不上傳。
+**公開邊界**：不納入原始組織名稱、商標、內部文件、私有服務資訊、憑證或個人簽署資料。
 
 ---
 
@@ -34,9 +34,9 @@
 
 **Repository pattern 帶來的好處**：
 * `protocol TodayRecordRepository` 定義契約
-* `MockTodayRecordRepository` 提供假資料；未來 `BLETodayRecordRepository` 提供真資料
+* `MockTodayRecordRepository` 提供展示資料；`RealmTodayRecordRepository` 提供實際持久化資料
 * VM 不關心資料來源
-* 換 BLE 真資料時，VC + VM 完全不改
+* Demo Mode 切換資料來源時，畫面與 ViewModel 不需改動
 
 **放棄的選項**：
 * ❌ SwiftUI + Observation：UIKit 為主，整個換成 SwiftUI 工程量過大

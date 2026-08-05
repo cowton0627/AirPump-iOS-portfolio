@@ -1,0 +1,5 @@
+// Shared signing defaults. Keep personal credentials in Signing.local.xcconfig.
+DEVELOPMENT_TEAM =
+
+// Optional so Simulator builds and CI work without developer-specific settings.
+#include? "Signing.local.xcconfig"

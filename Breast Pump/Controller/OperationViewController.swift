@@ -803,49 +803,49 @@ class OperationViewController: UIViewController {
     }
     
     // MARK: - Methods
-    private func startCounting() {
+    private func startCounting(using dict: [CBUUID: CBCharacteristic],
+                               stopwatch: Stopwatch) {
         let realmData = try! Realm()
-        let milkingData: RLM_BreastPump = RLM_BreastPump()
-        
-//        開始時間
-//        dynamic var startTime: String = ""
-//        結束時間
-//        dynamic var endTime: String = ""
-//        持續時間
-//        dynamic var duration: String = ""
-        
-        let date = Date()
-        milkingData.date = date
-        
-        
-        
-        if let breastSide = charDict[GATT.BREAST_SIDE]?.value?.hexToStr() {
+        let milkingData = RLM_BreastPump()
+        let endDate = Date()
+        let elapsedTime = stopwatch.elapsedTime
+        let startDate = endDate.addingTimeInterval(-elapsedTime)
+        let timeFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "zh_TW")
+            formatter.dateFormat = "a h:mm:ss"
+            return formatter
+        }()
+
+        milkingData.date = endDate
+        milkingData.startTime = timeFormatter.string(from: startDate)
+        milkingData.endTime = timeFormatter.string(from: endDate)
+        milkingData.duration = sessionDurationString(from: elapsedTime)
+
+        if let breastSide = dict[GATT.BREAST_SIDE]?.value?.hexToStr() {
             milkingData.breastSide = breastSide
         }
-        if let liquidHeight = charDict[GATT.LIQUID_HEIGHT]?.value?.first {
-            let lh = Int(liquidHeight)
-            milkingData.amount = lh
+        if let liquidHeight = dict[GATT.LIQUID_HEIGHT]?.value?.first {
+            milkingData.amount = Int(liquidHeight)
         }
-        if let strength = charDict[GATT.PUMP_LEVEL]?.value?.hexToStr() {
+        if let strength = dict[GATT.PUMP_LEVEL]?.value?.hexToStr() {
             milkingData.strength = strength
         }
-        if let mode = charDict[GATT.OPERATION_MODE]?.value?.hexToStr() {
+        if let mode = dict[GATT.OPERATION_MODE]?.value?.hexToStr() {
             milkingData.mode = mode
         }
 
-//        milkingData.endTime =
-//        milkingData.duration =
-        
-        try! realmData.write({
+        try! realmData.write {
             realmData.add(milkingData)
-        })
-        
-//        if let milkingData = realmData?.objects(RLM_Milking.self) {
-//            try! realmData?.write({
-//                RLM_Milking(value: milkingData)
-//            })
-//        }
-        
+        }
+    }
+
+    private func sessionDurationString(from interval: TimeInterval) -> String {
+        let totalSeconds = max(Int(interval.rounded()), 0)
+        let hours = totalSeconds / 3600
+        let minutes = (totalSeconds % 3600) / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
     
     /// 顯示斷線警示
@@ -1837,6 +1837,7 @@ extension OperationViewController: ShutdownAlertViewDelegate {
                                                  type: .withResponse)
                 }
 
+                startCounting(using: charDict, stopwatch: stopwatch)
                 stopwatch.stop()
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -1858,6 +1859,7 @@ extension OperationViewController: ShutdownAlertViewDelegate {
                                                  type: .withResponse)
                 }
                 
+                startCounting(using: charLastDict, stopwatch: stopLastWatch)
                 stopLastWatch.stop()
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -1881,6 +1883,7 @@ extension OperationViewController: ShutdownAlertViewDelegate {
                                                  type: .withResponse)
                 }
 
+                startCounting(using: charDict, stopwatch: stopwatch)
                 stopwatch.stop()
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -1902,6 +1905,7 @@ extension OperationViewController: ShutdownAlertViewDelegate {
                                                  type: .withResponse)
                 }
                 
+                startCounting(using: charLastDict, stopwatch: stopLastWatch)
                 stopLastWatch.stop()
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

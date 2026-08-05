@@ -36,3 +36,5 @@ fastlane/test_output
 # Personal AI assistant config (treated as personal IDE setting)
 /CLAUDE.md
 
+# Developer-specific Apple signing
+/Config/Signing.local.xcconfig

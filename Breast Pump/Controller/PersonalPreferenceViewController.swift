@@ -23,6 +23,7 @@ class PersonalPreferenceTableViewController: UITableViewController {
     }
     // navigationBar用圖顯示原樣
     private let menuIcon = UIImage(systemName: "line.3.horizontal")
+    private let demoModeSwitch = UISwitch()
     
 //    private let phoneBeepCellIndexPath    = IndexPath(row: 0, section: 0)
     private let leftBeepIndexPath     = IndexPath(row: 1, section: 0)
@@ -70,6 +71,23 @@ class PersonalPreferenceTableViewController: UITableViewController {
         // 設定navigationBar顯圖, 與buttonAction
         let leftBarItem = UIBarButtonItem(image: menuIcon, style: .plain, target: .none, action: nil)
         navigationItem.setLeftBarButton(leftBarItem, animated: true)
+
+        demoModeSwitch.isOn = PortfolioDemoMode.isEnabled
+        demoModeSwitch.accessibilityLabel = "作品集示範模式"
+        demoModeSwitch.addTarget(self, action: #selector(demoModeSwitchChanged), for: .valueChanged)
+
+        let titleLabel = UILabel()
+        titleLabel.text = "示範"
+        titleLabel.font = .systemFont(ofSize: 14, weight: .medium)
+        let stack = UIStackView(arrangedSubviews: [titleLabel, demoModeSwitch])
+        stack.axis = .horizontal
+        stack.spacing = 6
+        stack.alignment = .center
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stack)
+    }
+
+    @objc private func demoModeSwitchChanged(_ sender: UISwitch) {
+        PortfolioDemoMode.isEnabled = sender.isOn
     }
     
     @objc func cancelTapped() {

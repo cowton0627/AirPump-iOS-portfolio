@@ -144,7 +144,7 @@ final class HistoryViewModel {
 /// 歷史紀錄
 class HistoryTableViewController: UITableViewController {
 
-    private var viewModel = HistoryViewModel(repository: MockHistoryRecordRepository())
+    private var viewModel: HistoryViewModel!
     private var cancellables = Set<AnyCancellable>()
     private var sections: [HistorySectionViewState] = []
     private var expandedFlags: [Bool] = []
@@ -155,10 +155,27 @@ class HistoryTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(viewWithClass: HistorySectionView.self)
-        bindViewModel()
+        configureDataSource()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(demoModeDidChange),
+                                               name: .portfolioDemoModeDidChange,
+                                               object: nil)
     }
 
     // MARK: - Binding
+    @objc private func demoModeDidChange() {
+        configureDataSource()
+    }
+
+    private func configureDataSource() {
+        cancellables.removeAll()
+        let repository: HistoryRecordRepository = PortfolioDemoMode.isEnabled
+            ? MockHistoryRecordRepository()
+            : RealmHistoryRecordRepository()
+        viewModel = HistoryViewModel(repository: repository)
+        bindViewModel()
+    }
+
     private func bindViewModel() {
         viewModel.$state
             .receive(on: DispatchQueue.main)
@@ -178,7 +195,7 @@ class HistoryTableViewController: UITableViewController {
 
     private func makeMockBanner() -> UIView {
         let label = UILabel()
-        label.text = "  示範資料 · 連線真機後將自動切換  "
+        label.text = "  示範資料 · 可於偏好設定切換  "
         label.textAlignment = .center
         label.backgroundColor = .systemOrange
         label.textColor = .white
