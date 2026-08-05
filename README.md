@@ -109,6 +109,18 @@ open "Breast Pump.xcodeproj"
 
 選擇 iOS Simulator 後按 `⌘R`。Simulator 不需要 Apple Developer Team。
 
+### 測試
+
+專案包含 `Breast PumpTests` unit-test target，涵蓋 Demo Mode 通知、Realm record mapping、左右裝置紀錄合併、session 分群、duration 解析與七日統計。
+
+```bash
+xcodebuild test \
+  -project "Breast Pump.xcodeproj" \
+  -scheme "Breast Pump" \
+  -destination 'platform=iOS Simulator,name=iPhone 15' \
+  CODE_SIGNING_ALLOWED=NO
+```
+
 ### 實體裝置簽署
 
 ```bash
@@ -123,7 +135,7 @@ cp Config/Signing.local.xcconfig.example Config/Signing.local.xcconfig
 - Simulator 可展示紀錄與分析 UI，但無法取代實際 BLE 硬體驗證。
 - 操作頁與 BLE manager 保留早期 UIKit 專案結構，後續可拆分為狀態機與指令編碼層。
 - 討論區與影音區為展示中的非核心畫面，尚未接入後端內容。
-- 目前未建立自動化測試 target 與 CI，將列為下一階段改善。
+- 目前尚未建立 CI；unit tests 可在 Xcode 或命令列執行。
 
 ## 作品集範圍
 

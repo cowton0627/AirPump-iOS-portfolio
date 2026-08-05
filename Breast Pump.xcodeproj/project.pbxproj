@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A2B2C3D40123456789ABC001 /* PortfolioDemoModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2C3D40123456789ABC003 /* PortfolioDemoModeTests.swift */; };
+		A2B2C3D40123456789ABC002 /* PumpRecordMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2C3D40123456789ABC004 /* PumpRecordMapperTests.swift */; };
 		A1B2C3DA0123456789ABCDEF /* PortfolioDemoMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3DB0123456789ABCDEF /* PortfolioDemoMode.swift */; };
 		A1B2C3D40123456789ABCDEF /* RealmPumpRecordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D50123456789ABCDEF /* RealmPumpRecordRepository.swift */; };
 		CE39952C2851E1C100899B94 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE39952B2851E1C100899B94 /* APIManager.swift */; };
@@ -72,7 +74,20 @@
 		F7C81CD82785931C00D2967C /* BLEConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C81CD72785931C00D2967C /* BLEConnectionManager.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A2B2C3D40123456789ABC00D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7A470902766FD12001748AC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F7A470972766FD12001748AC;
+			remoteInfo = "Breast Pump";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		A2B2C3D40123456789ABC003 /* PortfolioDemoModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDemoModeTests.swift; sourceTree = "<group>"; };
+		A2B2C3D40123456789ABC004 /* PumpRecordMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpRecordMapperTests.swift; sourceTree = "<group>"; };
+		A2B2C3D40123456789ABC005 /* Breast PumpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Breast PumpTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B2C3DB0123456789ABCDEF /* PortfolioDemoMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDemoMode.swift; sourceTree = "<group>"; };
 		A1B2C3D70123456789ABCDEF /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
 		A1B2C3D80123456789ABCDEF /* Signing.local.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.local.xcconfig.example; sourceTree = "<group>"; };
@@ -142,6 +157,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A2B2C3D40123456789ABC007 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F7A470952766FD12001748AC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -154,6 +176,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A2B2C3D40123456789ABC006 /* Breast PumpTests */ = {
+			isa = PBXGroup;
+			children = (
+				A2B2C3D40123456789ABC003 /* PortfolioDemoModeTests.swift */,
+				A2B2C3D40123456789ABC004 /* PumpRecordMapperTests.swift */,
+			);
+			path = "Breast PumpTests";
+			sourceTree = "<group>";
+		};
 		A1B2C3D90123456789ABCDEF /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,6 +282,7 @@
 			children = (
 				A1B2C3D90123456789ABCDEF /* Config */,
 				F7A4709A2766FD12001748AC /* Breast Pump */,
+				A2B2C3D40123456789ABC006 /* Breast PumpTests */,
 				F7A470992766FD12001748AC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -259,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				F7A470982766FD12001748AC /* Breast Pump.app */,
+				A2B2C3D40123456789ABC005 /* Breast PumpTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -365,6 +398,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A2B2C3D40123456789ABC00A /* Breast PumpTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A2B2C3D40123456789ABC00C /* Build configuration list for PBXNativeTarget "Breast PumpTests" */;
+			buildPhases = (
+				A2B2C3D40123456789ABC008 /* Sources */,
+				A2B2C3D40123456789ABC007 /* Frameworks */,
+				A2B2C3D40123456789ABC009 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A2B2C3D40123456789ABC00E /* PBXTargetDependency */,
+			);
+			name = "Breast PumpTests";
+			productName = "Breast PumpTests";
+			productReference = A2B2C3D40123456789ABC005 /* Breast PumpTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F7A470972766FD12001748AC /* Breast Pump */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F7A470AC2766FD15001748AC /* Build configuration list for PBXNativeTarget "Breast Pump" */;
@@ -395,6 +446,10 @@
 				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
+					A2B2C3D40123456789ABC00A = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = F7A470972766FD12001748AC;
+					};
 					F7A470972766FD12001748AC = {
 						CreatedOnToolsVersion = 12.2;
 					};
@@ -417,11 +472,19 @@
 			projectRoot = "";
 			targets = (
 				F7A470972766FD12001748AC /* Breast Pump */,
+				A2B2C3D40123456789ABC00A /* Breast PumpTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A2B2C3D40123456789ABC009 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F7A470962766FD12001748AC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -445,6 +508,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A2B2C3D40123456789ABC008 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2B2C3D40123456789ABC001 /* PortfolioDemoModeTests.swift in Sources */,
+				A2B2C3D40123456789ABC002 /* PumpRecordMapperTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F7A470942766FD12001748AC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -502,6 +574,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A2B2C3D40123456789ABC00E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F7A470972766FD12001748AC /* Breast Pump */;
+			targetProxy = A2B2C3D40123456789ABC00D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		F7A470A12766FD12001748AC /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -522,6 +602,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A2B2C3D40123456789ABC00F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.AirPumpPortfolioTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Breast Pump.app/Breast Pump";
+			};
+			name = Debug;
+		};
+		A2B2C3D40123456789ABC010 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.AirPumpPortfolioTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Breast Pump.app/Breast Pump";
+			};
+			name = Release;
+		};
 		F7A470AA2766FD15001748AC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -690,6 +810,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A2B2C3D40123456789ABC00C /* Build configuration list for PBXNativeTarget "Breast PumpTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A2B2C3D40123456789ABC00F /* Debug */,
+				A2B2C3D40123456789ABC010 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F7A470932766FD12001748AC /* Build configuration list for PBXProject "Breast Pump" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

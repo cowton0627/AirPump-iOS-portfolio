@@ -24,3 +24,9 @@
 2. 擷取前已停止會搶前景的 CovidAPI，並以 `simctl launch` 明確啟動 AirPump。
 3. 三張圖片皆由 Simulator 裝置顯示直接輸出，不包含視窗外框或其他 App 內容。
 4. 歷史與統計畫面均顯示橘色 Demo Mode 標示，資料與目前 mock repository 一致。
+
+## Unit tests（2026-08-05）
+
+- 新增 `Breast PumpTests` target 並納入 shared scheme。
+- 覆蓋 Demo Mode 切換通知、左右紀錄合併、10 分鐘 session pairing window、當日篩選、duration 解析與七日統計。
+- 已在 iPhone 15 / iOS 17.5 Simulator 執行 5 個 tests，0 failures，結果為 `TEST SUCCEEDED`。

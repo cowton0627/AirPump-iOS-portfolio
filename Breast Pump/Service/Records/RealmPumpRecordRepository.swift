@@ -12,7 +12,7 @@ import RealmSwift
 
 // MARK: - Mapping Helpers
 
-private enum PumpRecordMapper {
+enum PumpRecordMapper {
     static func makeSession(from records: [RLM_BreastPump]) -> PumpSession {
         let endTime = records.map(\.date).max() ?? Date()
         let leftRecords = records.filter { $0.breastSide == "00" }
