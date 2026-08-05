@@ -87,10 +87,10 @@ struct TodayViewState: Equatable {
 
     static let empty = TodayViewState(
         dateText: "--",
-        totalAmountText: "-- mL",
-        leftAmountText: "左: -- mL",
+        totalAmountText: "--",
+        leftAmountText: "-- mL",
         leftDurationText: "-- 分鐘",
-        rightAmountText: "右: -- mL",
+        rightAmountText: "-- mL",
         rightDurationText: "-- 分鐘",
         sessions: [],
         isShowingMockData: false
@@ -143,16 +143,16 @@ final class TodayViewModel {
             .store(in: &cancellables)
     }
 
-    private func makeState(from record: TodayRecord) -> TodayViewState {
+    func makeState(from record: TodayRecord) -> TodayViewState {
         let dateText = dateFormatter.string(from: record.date)
         let suffix = repository.isMock ? " · 示範資料" : ""
         let minutes = { (seconds: TimeInterval) in "\(Int(seconds / 60)) 分鐘" }
         return TodayViewState(
             dateText: dateText + suffix,
-            totalAmountText: "\(record.totalAmount) mL",
-            leftAmountText: "左: \(record.leftAmount) mL",
+            totalAmountText: "\(record.totalAmount)",
+            leftAmountText: "\(record.leftAmount) mL",
             leftDurationText: minutes(record.leftDuration),
-            rightAmountText: "右: \(record.rightAmount) mL",
+            rightAmountText: "\(record.rightAmount) mL",
             rightDurationText: minutes(record.rightDuration),
             sessions: record.sessions.map { session in
                 SessionRowViewState(
@@ -244,6 +244,17 @@ class TodayViewController: UIViewController {
     // MARK: - UI Setup
     private func configureUI() {
         tabBarController?.tabBar.isTranslucent = false
+
+        [totalAmountLabel, leftAmountLabel, rightAmountLabel].forEach { label in
+            label?.adjustsFontSizeToFitWidth = true
+            label?.minimumScaleFactor = 0.65
+            label?.lineBreakMode = .byClipping
+        }
+        [leftTimeLabel, rightTimeLabel].forEach { label in
+            label?.adjustsFontSizeToFitWidth = true
+            label?.minimumScaleFactor = 0.75
+            label?.lineBreakMode = .byClipping
+        }
 
         // 左view切成半圓
         let aDegree = CGFloat.pi / 180

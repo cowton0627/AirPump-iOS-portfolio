@@ -79,6 +79,23 @@ final class PumpRecordMapperTests: XCTestCase {
         XCTAssertTrue(zip(stats.dailyTotals, stats.dailyTotals.dropFirst()).allSatisfy { $0.date < $1.date })
     }
 
+    func testTodaySummaryUsesCompactStringsThatFitSummaryLabels() {
+        let left = makeRecord(date: date(daysFromToday: 0, hour: 8),
+                              side: "00",
+                              amount: 165,
+                              duration: "01:20:00")
+        let right = makeRecord(date: left.date.addingTimeInterval(5 * 60),
+                               side: "01",
+                               amount: 205,
+                               duration: "01:30:00")
+        let record = PumpRecordMapper.makeTodayRecord(from: [left, right])
+        let state = TodayViewModel(repository: MockTodayRecordRepository()).makeState(from: record)
+
+        XCTAssertEqual(state.totalAmountText, "370")
+        XCTAssertEqual(state.leftAmountText, "165 mL")
+        XCTAssertEqual(state.rightAmountText, "205 mL")
+    }
+
     private func makeRecord(date: Date,
                             side: String,
                             amount: Int,
