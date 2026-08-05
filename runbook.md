@@ -29,4 +29,12 @@
 
 - 新增 `Breast PumpTests` target 並納入 shared scheme。
 - 覆蓋 Demo Mode 切換通知、左右紀錄合併、10 分鐘 session pairing window、當日篩選、duration 解析與七日統計。
-- 已在 iPhone 15 / iOS 17.5 Simulator 執行 5 個 tests，0 failures，結果為 `TEST SUCCEEDED`。
+- 已在 iPhone 15 / iOS 17.5 Simulator 執行 7 個 tests，0 failures，結果為 `TEST SUCCEEDED`。
+
+## GitHub Actions CI（2026-08-05）
+
+- Workflow：`.github/workflows/ios-ci.yml`
+- 觸發條件：push 至 `main`、所有 pull requests。
+- 使用 `macos-15` runner，動態建立 runner 上最新可用的 iOS Simulator。
+- 驗證 tracked files 不含 Apple Developer Team ID，且 `Signing.local.xcconfig` 保持 ignored／untracked。
+- 執行 shared `Breast Pump` scheme 的完整 unit-test suite，無需 code signing。

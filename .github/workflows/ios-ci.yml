@@ -1,0 +1,94 @@
+name: iOS CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build and test
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Verify public signing configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git check-ignore --quiet Config/Signing.local.xcconfig
+
+          if git grep -n -E 'DEVELOPMENT_TEAM[[:space:]]*=[[:space:]]*[A-Z0-9]{10}' -- ':!Config/Signing.local.xcconfig'; then
+            echo "A tracked Apple Developer Team ID was found."
+            exit 1
+          fi
+
+          if git ls-files --error-unmatch Config/Signing.local.xcconfig >/dev/null 2>&1; then
+            echo "Config/Signing.local.xcconfig must remain untracked."
+            exit 1
+          fi
+
+      - name: Create iOS Simulator
+        id: simulator
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          runtime_version=$(xcrun simctl list runtimes --json | ruby -rjson -e '
+            runtimes = JSON.parse(STDIN.read).fetch("runtimes")
+              .select { |runtime| runtime["isAvailable"] && runtime["platform"] == "iOS" }
+            abort "No available iOS runtime" if runtimes.empty?
+            puts runtimes.max_by { |runtime| Gem::Version.new(runtime.fetch("version")) }.fetch("version")
+          ')
+
+          runtime_id=$(xcrun simctl list runtimes --json | RUNTIME_VERSION="$runtime_version" ruby -rjson -e '
+            runtime = JSON.parse(STDIN.read).fetch("runtimes")
+              .find { |item| item["isAvailable"] && item["platform"] == "iOS" && item["version"] == ENV.fetch("RUNTIME_VERSION") }
+            abort "Selected iOS runtime is unavailable" unless runtime
+            puts runtime.fetch("identifier")
+          ')
+
+          device_type_id=$(xcrun simctl list devicetypes --json | RUNTIME_VERSION="$runtime_version" ruby -rjson -e '
+            runtime = Gem::Version.new(ENV.fetch("RUNTIME_VERSION"))
+            devices = JSON.parse(STDIN.read).fetch("devicetypes")
+              .select do |device|
+                next false unless device.fetch("name").start_with?("iPhone")
+                minimum = Gem::Version.new(device.fetch("minRuntimeVersionString"))
+                maximum = Gem::Version.new(device.fetch("maxRuntimeVersionString"))
+                minimum <= runtime && runtime <= maximum
+              end
+            abort "No iPhone device type supports iOS #{runtime}" if devices.empty?
+            puts devices.first.fetch("identifier")
+          ')
+
+          simulator_id=$(xcrun simctl create "AirPump CI" "$device_type_id" "$runtime_id")
+          xcrun simctl boot "$simulator_id"
+          xcrun simctl bootstatus "$simulator_id" -b
+          echo "id=$simulator_id" >> "$GITHUB_OUTPUT"
+
+      - name: Build and run unit tests
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          xcodebuild test \
+            -project "Breast Pump.xcodeproj" \
+            -scheme "Breast Pump" \
+            -destination "platform=iOS Simulator,id=${{ steps.simulator.outputs.id }}" \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Remove CI Simulator
+        if: always() && steps.simulator.outputs.id != ''
+        shell: bash
+        run: xcrun simctl delete "${{ steps.simulator.outputs.id }}"

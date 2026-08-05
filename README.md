@@ -1,5 +1,7 @@
 # AirPump iOS · Portfolio
 
+[![iOS CI](https://github.com/cowton0627/AirPump-iOS-portfolio/actions/workflows/ios-ci.yml/badge.svg)](https://github.com/cowton0627/AirPump-iOS-portfolio/actions/workflows/ios-ci.yml)
+
 AirPump 是一款以 Swift 與 UIKit 開發的 iOS 應用，透過 CoreBluetooth 連接穿戴式擠乳器，提供裝置控制、擠乳紀錄與統計分析。
 
 > Portfolio focus: BLE 狀態處理、UIKit 自訂 UI、MVVM + Repository 資料分層，以及無實體硬體的可重現展示流程。
@@ -135,7 +137,7 @@ cp Config/Signing.local.xcconfig.example Config/Signing.local.xcconfig
 - Simulator 可展示紀錄與分析 UI，但無法取代實際 BLE 硬體驗證。
 - 操作頁與 BLE manager 保留早期 UIKit 專案結構，後續可拆分為狀態機與指令編碼層。
 - 討論區與影音區為展示中的非核心畫面，尚未接入後端內容。
-- 目前尚未建立 CI；unit tests 可在 Xcode 或命令列執行。
+- GitHub Actions 會在 push 至 `main` 與 pull request 時，以 macOS runner 建立 iOS Simulator、檢查公開簽署設定，並執行完整 unit-test suite。
 
 ## 作品集範圍
 
