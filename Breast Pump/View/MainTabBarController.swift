@@ -63,9 +63,14 @@ class MainTabBarController: UITabBarController {
         self.viewControllers?[2].tabBarItem.image = UIImage(systemName: "text.bubble.fill")
         self.viewControllers?[3].tabBarItem.image = UIImage(systemName: "video.fill")
         self.viewControllers?[4].tabBarItem.image = UIImage(systemName: "bell.fill")
-        
-        
-        
+
+#if DEBUG
+        if let rawIndex = ProcessInfo.processInfo.environment["AIRPUMP_START_TAB"],
+           let index = Int(rawIndex),
+           viewControllers?.indices.contains(index) == true {
+            selectedIndex = index
+        }
+#endif
     }
 
     /*
