@@ -1620,10 +1620,12 @@ class OperationViewController: UIViewController {
         // 設定navigationBar顯圖與buttonAction
         let leftBarItem = UIBarButtonItem(image: menuIcon, style: .plain,
                                           target: self, action: #selector(showPrefMenu))
+        leftBarItem.accessibilityLabel = "偏好設定"
         navigationItem.setLeftBarButton(leftBarItem, animated: true)
         
         let rightBarItem = UIBarButtonItem(image: addIcon, style: .plain,
                                            target: self, action: #selector(showDeviceList))
+        rightBarItem.accessibilityLabel = "新增裝置"
         navigationItem.setRightBarButton(rightBarItem, animated: true)
         
         // 處理顯示日期
@@ -1663,6 +1665,10 @@ class OperationViewController: UIViewController {
         // 配對與否
         for bleStateBtn in bleStateButton {
             bleStateBtn.setImage(UIImage(named: "blueTooth_Off"), for: .normal)
+            let side = bleStateBtn.tag == 0 ? "左側" : "右側"
+            bleStateBtn.isAccessibilityElement = true
+            bleStateBtn.accessibilityLabel = "\(side)裝置連線狀態"
+            bleStateBtn.accessibilityValue = "未連線"
         }
         
         // strengthLabel
@@ -1675,6 +1681,7 @@ class OperationViewController: UIViewController {
             playPauseBtn.setImage(UIImage(named: "play"), for: .normal)
         }
         setupPumpControlButtons()
+        configureAccessibility()
         
         // 模式buttons
         setupModeButtons(autoButton)
@@ -1699,6 +1706,21 @@ class OperationViewController: UIViewController {
             button.adjustsImageWhenHighlighted = false
             button.addTarget(self, action: #selector(pumpControlTouchDown(_:)), for: [.touchDown, .touchDragEnter])
             button.addTarget(self, action: #selector(pumpControlTouchUp(_:)), for: [.touchUpInside, .touchUpOutside, .touchCancel, .touchDragExit])
+        }
+    }
+
+    private func configureAccessibility() {
+        for button in decreaseButton {
+            let side = button.tag == 0 ? "左側" : "右側"
+            button.accessibilityLabel = "降低\(side)強度"
+        }
+        for button in increaseButton {
+            let side = button.tag == 0 ? "左側" : "右側"
+            button.accessibilityLabel = "提高\(side)強度"
+        }
+        for button in playPauseButton {
+            let side = button.tag == 0 ? "左側" : "右側"
+            button.accessibilityLabel = "開始或暫停\(side)擠乳"
         }
     }
 

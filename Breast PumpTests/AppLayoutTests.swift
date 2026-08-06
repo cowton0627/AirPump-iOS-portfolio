@@ -186,6 +186,35 @@ final class AppLayoutTests: XCTestCase {
         }
     }
 
+    func testIconOnlyControlsHaveVoiceOverLabels() {
+        let operation = UIStoryboard(name: "Operation", bundle: .main)
+            .instantiateViewController(identifier: "OperationViewController")
+            as! OperationViewController
+        operation.loadViewIfNeeded()
+
+        XCTAssertEqual(operation.navigationItem.leftBarButtonItem?.accessibilityLabel, "偏好設定")
+        XCTAssertEqual(operation.navigationItem.rightBarButtonItem?.accessibilityLabel, "新增裝置")
+        XCTAssertEqual(Set(operation.decreaseButton.compactMap(\.accessibilityLabel)),
+                       ["降低左側強度", "降低右側強度"])
+        XCTAssertEqual(Set(operation.increaseButton.compactMap(\.accessibilityLabel)),
+                       ["提高左側強度", "提高右側強度"])
+        XCTAssertEqual(Set(operation.playPauseButton.compactMap(\.accessibilityLabel)),
+                       ["開始或暫停左側擠乳", "開始或暫停右側擠乳"])
+        XCTAssertTrue(operation.bleStateButton.allSatisfy {
+            $0.isAccessibilityElement && $0.accessibilityValue == "未連線"
+        })
+
+        let video = UIStoryboard(name: "Video", bundle: .main)
+            .instantiateViewController(identifier: "VideoViewController")
+            as! VideoViewController
+        video.loadViewIfNeeded()
+        let buttonLabels = Set(allSubviews(of: video.view, type: UIButton.self)
+            .compactMap(\.accessibilityLabel))
+        XCTAssertTrue(buttonLabels.contains("下載影音"))
+        XCTAssertTrue(buttonLabels.contains("選擇影音類型"))
+        XCTAssertEqual(video.navigationItem.leftBarButtonItem?.accessibilityLabel, "偏好設定")
+    }
+
     private func assertLabel(text: String,
                              fitsIn labels: [UILabel],
                              width: CGFloat,

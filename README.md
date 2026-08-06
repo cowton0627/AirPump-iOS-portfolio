@@ -31,6 +31,7 @@ App 在全新安裝時預設開啟「示範模式」，不需實體擠乳器或�
 - 整理單日、歷史與七日統計資料
 - 使用 Core Graphics 繪製無第三方依賴的長條圖
 - 內建無硬體 Demo Mode，並明確標示示範資料
+- 為圖示導覽與核心裝置控制提供 VoiceOver 名稱
 
 ## 技術與架構
 
@@ -113,7 +114,7 @@ open "Breast Pump.xcodeproj"
 
 ### 測試
 
-專案包含 `Breast PumpTests` target，涵蓋 Demo Mode 通知、Realm record mapping、左右裝置紀錄合併、session 分群、duration 解析與七日統計。版面回歸測試會以 393pt／320pt 寬度載入五個主分頁，檢查紀錄文字、KPI、圖表、操作控制與警示框未超出畫面。
+專案包含 `Breast PumpTests` target，涵蓋 Demo Mode 通知、Realm record mapping、左右裝置紀錄合併、session 分群、duration 解析與七日統計。版面回歸測試會以 393pt／320pt 寬度載入五個主分頁，檢查紀錄文字、KPI、圖表、操作控制與警示框未超出畫面，並驗證圖示控制具有 VoiceOver 名稱。
 
 ```bash
 xcodebuild test \

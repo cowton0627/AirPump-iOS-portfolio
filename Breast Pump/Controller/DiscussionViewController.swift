@@ -49,6 +49,7 @@ class DiscussionViewController: UIViewController {
     private func configureUI() {
         // 設定navigationBar顯圖, 與buttonAction
         let leftBarItem = UIBarButtonItem(image: menuIcon, style: .plain, target: .none, action: nil)
+        leftBarItem.accessibilityLabel = "偏好設定"
         navigationItem.setLeftBarButton(leftBarItem, animated: true)
     }
     

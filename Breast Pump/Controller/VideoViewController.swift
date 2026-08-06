@@ -36,11 +36,29 @@ class VideoViewController: UIViewController {
                                           style: .plain,
                                           target: .none,
                                           action: nil)
+        leftBarItem.accessibilityLabel = "偏好設定"
         navigationItem.setLeftBarButton(leftBarItem, animated: true)
+
+        for button in allButtons(in: view) {
+            let actions = button.actions(forTarget: self, forControlEvent: .touchUpInside) ?? []
+            if actions.contains("downloadButtonTapped:") {
+                button.accessibilityLabel = "下載影音"
+            } else if actions.contains("popoverButtonTapped:") {
+                button.accessibilityLabel = "選擇影音類型"
+            } else if button.currentTitle?.trimmingCharacters(in: .whitespaces).isEmpty == true {
+                button.isAccessibilityElement = false
+            }
+        }
         
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(image: leftBarImage, style: .plain, target: self, action: nil)
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style: .plain, target: self, action: nil)
         
+    }
+
+    private func allButtons(in root: UIView) -> [UIButton] {
+        root.subviews.flatMap { view in
+            ((view as? UIButton).map { [$0] } ?? []) + allButtons(in: view)
+        }
     }
     
     // MARK: - IBAction
