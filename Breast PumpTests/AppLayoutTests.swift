@@ -83,6 +83,51 @@ final class AppLayoutTests: XCTestCase {
         }
     }
 
+    func testDiscoveryChartAndKPIsFitAtSupportedPhoneWidths() {
+        withDemoModeEnabled {
+            for width in [393.0, 320.0] {
+                let controller = UIStoryboard(name: "Records", bundle: .main)
+                    .instantiateViewController(identifier: "DiscoveryTableViewController")
+                    as! DiscoveryTableViewController
+                let window = host(controller, width: width)
+                defer { window.isHidden = true }
+
+                let tableView = controller.tableView!
+                tableView.reloadData()
+                tableView.layoutIfNeeded()
+                XCTAssertEqual(tableView.numberOfSections, 4)
+
+                var labels: [UILabel] = []
+                for section in 0..<tableView.numberOfSections {
+                    let indexPath = IndexPath(row: 0, section: section)
+                    let cell = controller.tableView(tableView, cellForRowAt: indexPath)
+                    let height = controller.tableView(tableView, heightForRowAt: indexPath)
+                    cell.frame = CGRect(x: 0, y: 0, width: width, height: height)
+                    cell.setNeedsLayout()
+                    cell.layoutIfNeeded()
+
+                    assertSubviewsStayWithinHorizontalBounds(of: cell.contentView, width: width)
+                    let cellLabels = allSubviews(of: cell.contentView, type: UILabel.self)
+                    labels.append(contentsOf: cellLabels)
+                    for label in cellLabels {
+                        assertTextFits(label, width: width)
+                    }
+                    for chart in allSubviews(of: cell.contentView, type: BarChartView.self) {
+                        let frame = chart.convert(chart.bounds, to: cell.contentView)
+                        XCTAssertGreaterThanOrEqual(frame.minX, -0.5)
+                        XCTAssertLessThanOrEqual(frame.maxX, cell.contentView.bounds.width + 0.5)
+                        XCTAssertGreaterThan(chart.bounds.height, 0)
+                    }
+                }
+
+                let expectedTexts = ["32.2", "mL/min", "3 小時 16 分", "6310", "mL"]
+                for text in expectedTexts {
+                    assertLabel(text: text, fitsIn: labels, width: width)
+                }
+            }
+        }
+    }
+
     private func assertLabel(text: String,
                              fitsIn labels: [UILabel],
                              width: CGFloat,

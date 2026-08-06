@@ -41,7 +41,7 @@
 
 ## 窄螢幕版面回歸（2026-08-06）
 
-- 「當日紀錄」與「歷史紀錄」皆以 393pt、320pt 兩種寬度驗證。
+- 「當日紀錄」、「歷史紀錄」與「統計分析」皆以 393pt、320pt 兩種寬度驗證。
 - 歷史紀錄 cell 原先四個右側欄位沿用 375pt storyboard 固定座標，已改為響應式 stack view constraints。
-- 測試會確認所有紀錄文字位於 cell 邊界內，並依 label 的最小縮放比例檢查文字可完整容納。
-- 完整 suite 共 8 個 tests，0 failures。
+- 測試會確認所有紀錄與 KPI 文字位於 cell 邊界內，依 label 的最小縮放比例檢查文字可完整容納，並驗證自繪圖表未超出 cell。
+- 完整 suite 共 9 個 tests，0 failures。
