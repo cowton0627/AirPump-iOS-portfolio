@@ -38,3 +38,10 @@
 - 使用 `macos-15` runner，動態建立 runner 上最新可用的 iOS Simulator。
 - 驗證 tracked files 不含 Apple Developer Team ID，且 `Signing.local.xcconfig` 保持 ignored／untracked。
 - 執行 shared `Breast Pump` scheme 的完整 unit-test suite，無需 code signing。
+
+## 窄螢幕版面回歸（2026-08-06）
+
+- 「當日紀錄」與「歷史紀錄」皆以 393pt、320pt 兩種寬度驗證。
+- 歷史紀錄 cell 原先四個右側欄位沿用 375pt storyboard 固定座標，已改為響應式 stack view constraints。
+- 測試會確認所有紀錄文字位於 cell 邊界內，並依 label 的最小縮放比例檢查文字可完整容納。
+- 完整 suite 共 8 個 tests，0 failures。
