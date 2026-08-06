@@ -18,6 +18,7 @@ class DiscussionViewController: UIViewController {
         let view = UIView(frame: view.bounds)
         view.backgroundColor = .black
         view.alpha = 0.7
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return view
     }()
 
@@ -36,6 +37,7 @@ class DiscussionViewController: UIViewController {
     private func showAlertView() {
         let alertView = ReusableAlertView.instantiateFromNib()
         alertView.delegate = self
+        alertView.bounds.size.width = min(alertView.bounds.width, view.bounds.width)
         alertView.center = view.center
         alertView.setTitleLabel(title: "溫馨提醒", subtitle: "敬請期待",
                                 lhsText: "確認", rhsText: nil)

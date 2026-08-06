@@ -45,4 +45,5 @@
 - 歷史紀錄 cell 原先四個右側欄位沿用 375pt storyboard 固定座標，已改為響應式 stack view constraints。
 - 測試會確認所有紀錄與 KPI 文字位於 cell 邊界內，依 label 的最小縮放比例檢查文字可完整容納，並驗證自繪圖表未超出 cell。
 - 操作頁的尺寸判斷已由一次性的 `UIScreen` 讀值改為每次 layout 依 `view.bounds` 更新，能正確因應尺寸變化並避免重複 transform。
-- 完整 suite 共 10 個 tests，0 failures。
+- 影音區、偏好設定與討論區警示框亦納入 320pt 寬度檢查；警示框外層會限制在目前畫面寬度，遮罩背景可隨尺寸調整。
+- 完整 suite 共 11 個 tests，0 failures。

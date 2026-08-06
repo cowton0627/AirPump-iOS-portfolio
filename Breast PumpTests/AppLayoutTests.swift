@@ -165,6 +165,27 @@ final class AppLayoutTests: XCTestCase {
         }
     }
 
+    func testRemainingMainScreensFitAtNarrowWidth() {
+        let videoController = UIStoryboard(name: "Video", bundle: .main)
+            .instantiateViewController(identifier: "VideoViewController")
+        assertScreenContentFits(videoController, size: CGSize(width: 320, height: 568))
+
+        let preferenceController = UIStoryboard(name: "Preference", bundle: .main)
+            .instantiateViewController(identifier: "PersonalPreferenceTableViewController")
+        assertScreenContentFits(preferenceController, size: CGSize(width: 320, height: 568))
+
+        let alert = ReusableAlertView.instantiateFromNib()
+        alert.frame = CGRect(x: 0, y: 0, width: 320, height: 263)
+        alert.setTitleLabel(title: "溫馨提醒", subtitle: "敬請期待",
+                            lhsText: "確認", rhsText: nil)
+        alert.setNeedsLayout()
+        alert.layoutIfNeeded()
+        assertSubviewsStayWithinHorizontalBounds(of: alert, width: 320)
+        for label in allSubviews(of: alert, type: UILabel.self) {
+            assertTextFits(label, width: 320)
+        }
+    }
+
     private func assertLabel(text: String,
                              fitsIn labels: [UILabel],
                              width: CGFloat,
@@ -225,6 +246,39 @@ final class AppLayoutTests: XCTestCase {
         controller.view.setNeedsLayout()
         controller.view.layoutIfNeeded()
         return window
+    }
+
+    private func assertScreenContentFits(_ controller: UIViewController,
+                                         size: CGSize,
+                                         file: StaticString = #filePath,
+                                         line: UInt = #line) {
+        let window = UIWindow(frame: CGRect(origin: .zero, size: size))
+        window.rootViewController = controller
+        window.makeKeyAndVisible()
+        RunLoop.main.run(until: Date().addingTimeInterval(0.01))
+        defer {
+            window.isHidden = true
+            RunLoop.main.run(until: Date().addingTimeInterval(0.01))
+        }
+        controller.loadViewIfNeeded()
+        controller.view.frame = CGRect(origin: .zero, size: size)
+        controller.view.setNeedsLayout()
+        controller.view.layoutIfNeeded()
+
+        var inspectedViews = [UIView]()
+        inspectedViews += allSubviews(of: controller.view, type: UILabel.self).map { $0 as UIView }
+        inspectedViews += allSubviews(of: controller.view, type: UIButton.self).map { $0 as UIView }
+        inspectedViews += allSubviews(of: controller.view, type: UISwitch.self).map { $0 as UIView }
+        inspectedViews += allSubviews(of: controller.view, type: UITextField.self).map { $0 as UIView }
+        for view in inspectedViews where !view.isHidden && view.alpha > 0 {
+            let frame = view.convert(view.bounds, to: controller.view)
+            XCTAssertGreaterThanOrEqual(frame.minX, -0.5,
+                                        "\(type(of: view)) starts outside at \(size.width)pt",
+                                        file: file, line: line)
+            XCTAssertLessThanOrEqual(frame.maxX, controller.view.bounds.width + 0.5,
+                                     "\(type(of: view)) exceeds the screen at \(size.width)pt",
+                                     file: file, line: line)
+        }
     }
 
     private func withDemoModeEnabled(_ work: () -> Void) {
