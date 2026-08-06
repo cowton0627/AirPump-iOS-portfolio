@@ -49,10 +49,6 @@ class OperationViewController: UIViewController {
     // navigationBar用圖顯示原樣
     private let menuIcon = UIImage(systemName: "line.3.horizontal")
     private let addIcon = UIImage(systemName: "plus")
-    // 現螢幕寬高
-    private let screenWidth = UIScreen.main.bounds.width
-    private let screenHeight = UIScreen.main.bounds.height
-    
     // 特徵值字串
     private let Left  = "00"
     private let Right = "01"
@@ -142,6 +138,7 @@ class OperationViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        applyResponsiveLayout(for: view.bounds.size)
         guard !didConfigureArcs, leftView.bounds.width > 0 else { return }
         applyArc(to: leftView, roundedCorners: [.topRight, .bottomRight])
         applyArc(to: rightView, roundedCorners: [.topLeft, .bottomLeft])
@@ -1693,7 +1690,6 @@ class OperationViewController: UIViewController {
             turnOffBtn.isEnabled = false
         }
         
-        setupConstraints()
     }
 
     private func setupPumpControlButtons() {
@@ -1755,19 +1751,28 @@ class OperationViewController: UIViewController {
         view.layer.addSublayer(gradient)
     }
         
-    private func setupConstraints() {
+    private func applyResponsiveLayout(for size: CGSize) {
         // 基準畫面：iPhone 8 (375 × 667) 之上。其他尺寸做頂部間距微調與 SE 1st gen 縮放。
-        if screenHeight > 830 {
+        opTopConstraint.constant = 24
+        dateTopConstraint.constant = 60
+        lViewTopConstraint.constant = 16
+        rViewTopConstraint.constant = 16
+        leftView.transform = .identity
+        rightView.transform = .identity
+        leftStack.transform = .identity
+        rightStack.transform = .identity
+
+        if size.height > 830 {
             // iPhone Pro Max / Plus：頂部多預留空間
             lViewTopConstraint.constant = 55
             rViewTopConstraint.constant = 55
-        } else if screenHeight > 600 && screenHeight < 810 {
+        } else if size.height > 600 && size.height < 810 {
             // iPhone 標準 / SE 2nd-3rd gen：頂部上移
             opTopConstraint.constant = 0
             dateTopConstraint.constant = 36
             lViewTopConstraint.constant = 0
             rViewTopConstraint.constant = 0
-        } else if screenHeight < 600 {
+        } else if size.height < 600 {
             // iPhone SE 1st gen：整體縮放
             opTopConstraint.constant = 0
             dateTopConstraint.constant = 36

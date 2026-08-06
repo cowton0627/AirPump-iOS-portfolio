@@ -128,6 +128,43 @@ final class AppLayoutTests: XCTestCase {
         }
     }
 
+    func testOperationControlsFitAtSmallestSupportedPhoneSize() {
+        let controller = UIStoryboard(name: "Operation", bundle: .main)
+            .instantiateViewController(identifier: "OperationViewController")
+            as! OperationViewController
+        controller.loadViewIfNeeded()
+        controller.view.frame = CGRect(x: 0, y: 0, width: 320, height: 568)
+        controller.view.setNeedsLayout()
+        controller.view.layoutIfNeeded()
+
+        for panel in [controller.leftView!, controller.rightView!] {
+            let frame = panel.convert(panel.bounds, to: controller.view)
+            XCTAssertGreaterThanOrEqual(frame.minX, -0.5)
+            XCTAssertLessThanOrEqual(frame.maxX, controller.view.bounds.width + 0.5)
+            XCTAssertGreaterThanOrEqual(frame.minY, -0.5)
+            XCTAssertLessThanOrEqual(frame.maxY, controller.view.bounds.height + 0.5)
+        }
+
+        var controls = [UIView]()
+        controls += controller.timeLabel.map { $0 as UIView }
+        controls += controller.mlLabel.map { $0 as UIView }
+        controls += controller.strengthLabel.map { $0 as UIView }
+        controls += controller.decreaseButton.map { $0 as UIView }
+        controls += controller.increaseButton.map { $0 as UIView }
+        controls += controller.playPauseButton.map { $0 as UIView }
+        for control in controls {
+            let frame = control.convert(control.bounds, to: controller.view)
+            XCTAssertGreaterThanOrEqual(frame.minX, -0.5,
+                                        "\(type(of: control)) starts outside the operation screen")
+            XCTAssertLessThanOrEqual(frame.maxX, controller.view.bounds.width + 0.5,
+                                     "\(type(of: control)) exceeds the operation screen")
+            XCTAssertGreaterThanOrEqual(frame.minY, -0.5,
+                                        "\(type(of: control)) starts above the operation screen")
+            XCTAssertLessThanOrEqual(frame.maxY, controller.view.bounds.height + 0.5,
+                                     "\(type(of: control)) exceeds the operation screen height")
+        }
+    }
+
     private func assertLabel(text: String,
                              fitsIn labels: [UILabel],
                              width: CGFloat,
