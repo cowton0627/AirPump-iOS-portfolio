@@ -113,7 +113,7 @@ open "Breast Pump.xcodeproj"
 
 ### 測試
 
-專案包含 `Breast PumpTests` unit-test target，涵蓋 Demo Mode 通知、Realm record mapping、左右裝置紀錄合併、session 分群、duration 解析與七日統計。
+專案包含 `Breast PumpTests` target，涵蓋 Demo Mode 通知、Realm record mapping、左右裝置紀錄合併、session 分群、duration 解析與七日統計。版面回歸測試會以 393pt／320pt 寬度載入五個主分頁，檢查紀錄文字、KPI、圖表、操作控制與警示框未超出畫面。
 
 ```bash
 xcodebuild test \
