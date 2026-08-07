@@ -25,6 +25,20 @@
             buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A3B2C3D40123456789ABC008"
+               BuildableName = "Breast PumpUITests.xctest"
+               BlueprintName = "Breast PumpUITests"
+               ReferencedContainer = "container:Breast Pump.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
@@ -49,6 +63,16 @@
                BlueprintIdentifier = "A2B2C3D40123456789ABC00A"
                BuildableName = "Breast PumpTests.xctest"
                BlueprintName = "Breast PumpTests"
+               ReferencedContainer = "container:Breast Pump.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A3B2C3D40123456789ABC008"
+               BuildableName = "Breast PumpUITests.xctest"
+               BlueprintName = "Breast PumpUITests"
                ReferencedContainer = "container:Breast Pump.xcodeproj">
             </BuildableReference>
          </TestableReference>

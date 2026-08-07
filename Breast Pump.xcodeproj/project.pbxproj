@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A3B2C3D40123456789ABC001 /* BreastPumpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B2C3D40123456789ABC002 /* BreastPumpUITests.swift */; };
 		A2B2C3D40123456789ABC011 /* AppLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2C3D40123456789ABC012 /* AppLayoutTests.swift */; };
 		A2B2C3D40123456789ABC001 /* PortfolioDemoModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2C3D40123456789ABC003 /* PortfolioDemoModeTests.swift */; };
 		A2B2C3D40123456789ABC002 /* PumpRecordMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2C3D40123456789ABC004 /* PumpRecordMapperTests.swift */; };
@@ -76,6 +77,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A3B2C3D40123456789ABC00C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7A470902766FD12001748AC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F7A470972766FD12001748AC;
+			remoteInfo = "Breast Pump";
+		};
 		A2B2C3D40123456789ABC00D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F7A470902766FD12001748AC /* Project object */;
@@ -86,6 +94,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A3B2C3D40123456789ABC002 /* BreastPumpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreastPumpUITests.swift; sourceTree = "<group>"; };
+		A3B2C3D40123456789ABC003 /* Breast PumpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Breast PumpUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2B2C3D40123456789ABC012 /* AppLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLayoutTests.swift; sourceTree = "<group>"; };
 		A2B2C3D40123456789ABC003 /* PortfolioDemoModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDemoModeTests.swift; sourceTree = "<group>"; };
 		A2B2C3D40123456789ABC004 /* PumpRecordMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpRecordMapperTests.swift; sourceTree = "<group>"; };
@@ -159,6 +169,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A3B2C3D40123456789ABC005 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A2B2C3D40123456789ABC007 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -178,6 +195,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A3B2C3D40123456789ABC004 /* Breast PumpUITests */ = {
+			isa = PBXGroup;
+			children = (
+				A3B2C3D40123456789ABC002 /* BreastPumpUITests.swift */,
+			);
+			path = "Breast PumpUITests";
+			sourceTree = "<group>";
+		};
 		A2B2C3D40123456789ABC006 /* Breast PumpTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -286,6 +311,7 @@
 				A1B2C3D90123456789ABCDEF /* Config */,
 				F7A4709A2766FD12001748AC /* Breast Pump */,
 				A2B2C3D40123456789ABC006 /* Breast PumpTests */,
+				A3B2C3D40123456789ABC004 /* Breast PumpUITests */,
 				F7A470992766FD12001748AC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -295,6 +321,7 @@
 			children = (
 				F7A470982766FD12001748AC /* Breast Pump.app */,
 				A2B2C3D40123456789ABC005 /* Breast PumpTests.xctest */,
+				A3B2C3D40123456789ABC003 /* Breast PumpUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -401,6 +428,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A3B2C3D40123456789ABC008 /* Breast PumpUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A3B2C3D40123456789ABC009 /* Build configuration list for PBXNativeTarget "Breast PumpUITests" */;
+			buildPhases = (
+				A3B2C3D40123456789ABC007 /* Sources */,
+				A3B2C3D40123456789ABC005 /* Frameworks */,
+				A3B2C3D40123456789ABC006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A3B2C3D40123456789ABC00D /* PBXTargetDependency */,
+			);
+			name = "Breast PumpUITests";
+			productName = "Breast PumpUITests";
+			productReference = A3B2C3D40123456789ABC003 /* Breast PumpUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		A2B2C3D40123456789ABC00A /* Breast PumpTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A2B2C3D40123456789ABC00C /* Build configuration list for PBXNativeTarget "Breast PumpTests" */;
@@ -449,6 +494,10 @@
 				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
+					A3B2C3D40123456789ABC008 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = F7A470972766FD12001748AC;
+					};
 					A2B2C3D40123456789ABC00A = {
 						CreatedOnToolsVersion = 16.0;
 						TestTargetID = F7A470972766FD12001748AC;
@@ -476,11 +525,19 @@
 			targets = (
 				F7A470972766FD12001748AC /* Breast Pump */,
 				A2B2C3D40123456789ABC00A /* Breast PumpTests */,
+				A3B2C3D40123456789ABC008 /* Breast PumpUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A3B2C3D40123456789ABC006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A2B2C3D40123456789ABC009 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -511,6 +568,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A3B2C3D40123456789ABC007 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3B2C3D40123456789ABC001 /* BreastPumpUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A2B2C3D40123456789ABC008 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -579,6 +644,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A3B2C3D40123456789ABC00D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F7A470972766FD12001748AC /* Breast Pump */;
+			targetProxy = A3B2C3D40123456789ABC00C /* PBXContainerItemProxy */;
+		};
 		A2B2C3D40123456789ABC00E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F7A470972766FD12001748AC /* Breast Pump */;
@@ -606,6 +676,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A3B2C3D40123456789ABC00A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.AirPumpPortfolioUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Breast Pump";
+			};
+			name = Debug;
+		};
+		A3B2C3D40123456789ABC00B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.AirPumpPortfolioUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Breast Pump";
+			};
+			name = Release;
+		};
 		A2B2C3D40123456789ABC00F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -814,6 +922,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A3B2C3D40123456789ABC009 /* Build configuration list for PBXNativeTarget "Breast PumpUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3B2C3D40123456789ABC00A /* Debug */,
+				A3B2C3D40123456789ABC00B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A2B2C3D40123456789ABC00C /* Build configuration list for PBXNativeTarget "Breast PumpTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

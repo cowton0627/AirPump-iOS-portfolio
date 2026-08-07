@@ -114,7 +114,7 @@ open "Breast Pump.xcodeproj"
 
 ### 測試
 
-專案包含 `Breast PumpTests` target，涵蓋 Demo Mode 通知、Realm record mapping、左右裝置紀錄合併、session 分群、duration 解析與七日統計。版面回歸測試會以 393pt／320pt 寬度載入五個主分頁，檢查紀錄文字、KPI、圖表、操作控制與警示框未超出畫面，並驗證圖示控制具有 VoiceOver 名稱。
+專案包含 `Breast PumpTests` 與 `Breast PumpUITests` targets。前者涵蓋 Demo Mode、Realm record mapping、紀錄統計、版面與 VoiceOver 狀態；後者透過 XCUITest 實際啟動 App，驗證紀錄主流程可切換今日、歷史與分析頁。UI 測試使用穩定的 accessibility identifiers，無需 BLE 實體硬體。
 
 ```bash
 xcodebuild test \
@@ -138,7 +138,7 @@ cp Config/Signing.local.xcconfig.example Config/Signing.local.xcconfig
 - Simulator 可展示紀錄與分析 UI，但無法取代實際 BLE 硬體驗證。
 - 操作頁與 BLE manager 保留早期 UIKit 專案結構，後續可拆分為狀態機與指令編碼層。
 - 討論區與影音區為展示中的非核心畫面，尚未接入後端內容。
-- GitHub Actions 會在 push 至 `main` 與 pull request 時，以 macOS runner 建立 iOS Simulator、檢查公開簽署設定，並執行完整 unit-test suite。
+- GitHub Actions 會在 push 至 `main` 與 pull request 時，以 macOS runner 建立 iOS Simulator、檢查公開簽署設定，並執行完整 unit 與 UI test suites；失敗時會保存 `.xcresult` 診斷 artifact。
 
 ## 作品集範圍
 

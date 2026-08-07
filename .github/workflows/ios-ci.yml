@@ -77,7 +77,7 @@ jobs:
           xcrun simctl bootstatus "$simulator_id" -b
           echo "id=$simulator_id" >> "$GITHUB_OUTPUT"
 
-      - name: Build and run unit tests
+      - name: Build and run unit and UI tests
         shell: bash
         run: |
           set -euo pipefail
@@ -86,7 +86,16 @@ jobs:
             -project "Breast Pump.xcodeproj" \
             -scheme "Breast Pump" \
             -destination "platform=iOS Simulator,id=${{ steps.simulator.outputs.id }}" \
+            -resultBundlePath "$RUNNER_TEMP/AirPumpTests.xcresult" \
             CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload test diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: AirPumpTests-xcresult
+          path: ${{ runner.temp }}/AirPumpTests.xcresult
+          if-no-files-found: ignore
 
       - name: Remove CI Simulator
         if: always() && steps.simulator.outputs.id != ''

@@ -52,6 +52,11 @@ class MainRecordViewController: UIViewController {
         for pageButton in pageButtons {
             pageButton.layer.cornerRadius = 25
         }
+        let pageIdentifiers = ["records.today", "records.history", "records.analysis"]
+        for (index, identifier) in pageIdentifiers.enumerated()
+        where pageButtons.indices.contains(index) {
+            pageButtons[index].accessibilityIdentifier = identifier
+        }
         selectRecordPage(at: 0)
         
 //        let buttonPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 120, height: 42), cornerRadius: 20)
