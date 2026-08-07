@@ -56,12 +56,10 @@ class PersonalPreferenceTableViewController: UITableViewController {
     
     // MARK: - IBAction
     @IBAction func beepSwitchChanged(_ sender: UISwitch) {
-        // sender與isBeepSwitchOn初值必需相同
-        isBeepSwitchOn.toggle()
+        isBeepSwitchOn = sender.isOn
     }
     @IBAction func notifySwitchChanged(_ sender: UISwitch) {
-        // sender與isNotifySwitchOn初值必需相同
-        isNotifySwitchOn.toggle()
+        isNotifySwitchOn = sender.isOn
     }
     
     // MARK: - Methods

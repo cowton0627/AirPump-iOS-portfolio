@@ -272,6 +272,35 @@ final class AppLayoutTests: XCTestCase {
         XCTAssertTrue(record.recordViews[2].isHidden)
     }
 
+    func testPreferenceSwitchStateMatchesVisibleSwitchValue() {
+        let preference = UIStoryboard(name: "Preference", bundle: .main)
+            .instantiateViewController(identifier: "PersonalPreferenceTableViewController")
+            as! PersonalPreferenceTableViewController
+        preference.loadViewIfNeeded()
+
+        let beepSwitch = UISwitch()
+        beepSwitch.isOn = true
+        preference.beepSwitchChanged(beepSwitch)
+        XCTAssertTrue(preference.isBeepSwitchOn)
+        XCTAssertEqual(preference.tableView(preference.tableView,
+                                            heightForRowAt: IndexPath(row: 1, section: 0)),
+                       UITableView.automaticDimension)
+
+        beepSwitch.isOn = false
+        preference.beepSwitchChanged(beepSwitch)
+        XCTAssertFalse(preference.isBeepSwitchOn)
+        XCTAssertEqual(preference.tableView(preference.tableView,
+                                            heightForRowAt: IndexPath(row: 1, section: 0)), 0)
+
+        let notifySwitch = UISwitch()
+        notifySwitch.isOn = true
+        preference.notifySwitchChanged(notifySwitch)
+        XCTAssertTrue(preference.isNotifySwitchOn)
+        notifySwitch.isOn = false
+        preference.notifySwitchChanged(notifySwitch)
+        XCTAssertFalse(preference.isNotifySwitchOn)
+    }
+
     private func assertLabel(text: String,
                              fitsIn labels: [UILabel],
                              width: CGFloat,
