@@ -235,6 +235,26 @@ final class AppLayoutTests: XCTestCase {
         }
     }
 
+    func testRecordPageSelectionUpdatesVoiceOverState() {
+        let record = UIStoryboard(name: "Records", bundle: .main)
+            .instantiateViewController(identifier: "MainRecordViewController")
+            as! MainRecordViewController
+        record.loadViewIfNeeded()
+
+        XCTAssertTrue(record.pageButtons[0].accessibilityTraits.contains(.selected))
+        XCTAssertFalse(record.pageButtons[1].accessibilityTraits.contains(.selected))
+        XCTAssertFalse(record.pageButtons[2].accessibilityTraits.contains(.selected))
+
+        record.selectRecordPage(at: 1)
+
+        XCTAssertFalse(record.pageButtons[0].accessibilityTraits.contains(.selected))
+        XCTAssertTrue(record.pageButtons[1].accessibilityTraits.contains(.selected))
+        XCTAssertFalse(record.pageButtons[2].accessibilityTraits.contains(.selected))
+        XCTAssertTrue(record.recordViews[0].isHidden)
+        XCTAssertFalse(record.recordViews[1].isHidden)
+        XCTAssertTrue(record.recordViews[2].isHidden)
+    }
+
     private func assertLabel(text: String,
                              fitsIn labels: [UILabel],
                              width: CGFloat,

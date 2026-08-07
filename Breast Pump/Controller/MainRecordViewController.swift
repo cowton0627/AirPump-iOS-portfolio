@@ -23,48 +23,15 @@ class MainRecordViewController: UIViewController {
     
     // MARK: - IBAction
     @IBAction func todayPageTapped(_ sender: UIButton) {
-        for recordView in recordViews {
-            recordView.isHidden = true
-        }
-        recordViews[0].isHidden = false
-        
-        for pageButton in pageButtons {
-            pageButton.backgroundColor = idleColor
-            pageButton.setTitleColor(customColor, for: .normal)
-        }
-        pageButtons[0].backgroundColor = selectedColor
-        pageButtons[0].setTitleColor(.white, for: .normal)
-        
+        selectRecordPage(at: 0)
     }
     
     @IBAction func historyPageTapped(_ sender: UIButton) {
-        for recordView in recordViews {
-            recordView.isHidden = true
-        }
-        recordViews[1].isHidden = false
-        
-        for pageButton in pageButtons {
-            pageButton.backgroundColor = idleColor
-            pageButton.setTitleColor(customColor, for: .normal)
-        }
-        pageButtons[1].backgroundColor = selectedColor
-        pageButtons[1].setTitleColor(.white, for: .normal)
-        
+        selectRecordPage(at: 1)
     }
     
     @IBAction func analysisPageTapped(_ sender: UIButton) {
-        for recordView in recordViews {
-            recordView.isHidden = true
-        }
-        recordViews[2].isHidden = false
-        
-        for pageButton in pageButtons {
-            pageButton.backgroundColor = idleColor
-            pageButton.setTitleColor(customColor, for: .normal)
-        }
-        pageButtons[2].backgroundColor = selectedColor
-        pageButtons[2].setTitleColor(.white, for: .normal)
-        
+        selectRecordPage(at: 2)
     }
     
     // MARK: - LifeCycle
@@ -82,18 +49,10 @@ class MainRecordViewController: UIViewController {
         leftBarItem.accessibilityLabel = "偏好設定"
         navigationItem.setLeftBarButton(leftBarItem, animated: true)
 
-        for recordView in recordViews {
-            recordView.isHidden = true
-        }
-        recordViews[0].isHidden = false
-        
         for pageButton in pageButtons {
             pageButton.layer.cornerRadius = 25
-            pageButton.backgroundColor = idleColor
-            pageButton.setTitleColor(customColor, for: .normal)
         }
-        pageButtons[0].backgroundColor = selectedColor
-        pageButtons[0].setTitleColor(.white, for: .normal)
+        selectRecordPage(at: 0)
         
 //        let buttonPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 120, height: 42), cornerRadius: 20)
 //        let buttonShapeLayer1 = CAShapeLayer()
@@ -106,6 +65,25 @@ class MainRecordViewController: UIViewController {
 //        pageButtons[1].layer.mask = buttonShapeLayer2
 //        pageButtons[2].layer.mask = buttonShapeLayer3
         setupConstraint()
+    }
+
+    func selectRecordPage(at selectedIndex: Int) {
+        guard pageButtons.indices.contains(selectedIndex),
+              recordViews.indices.contains(selectedIndex) else { return }
+
+        for (index, recordView) in recordViews.enumerated() {
+            recordView.isHidden = index != selectedIndex
+        }
+        for (index, pageButton) in pageButtons.enumerated() {
+            let isSelected = index == selectedIndex
+            pageButton.backgroundColor = isSelected ? selectedColor : idleColor
+            pageButton.setTitleColor(isSelected ? .white : customColor, for: .normal)
+            if isSelected {
+                pageButton.accessibilityTraits.insert(.selected)
+            } else {
+                pageButton.accessibilityTraits.remove(.selected)
+            }
+        }
     }
     
     private func setupConstraint() {
