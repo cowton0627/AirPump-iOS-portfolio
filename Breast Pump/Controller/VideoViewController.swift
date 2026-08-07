@@ -43,8 +43,10 @@ class VideoViewController: UIViewController {
             let actions = button.actions(forTarget: self, forControlEvent: .touchUpInside) ?? []
             if actions.contains("downloadButtonTapped:") {
                 button.accessibilityLabel = "下載影音"
+                ensureAccessibleTouchTarget(for: button)
             } else if actions.contains("popoverButtonTapped:") {
                 button.accessibilityLabel = "選擇影音類型"
+                ensureAccessibleTouchTarget(for: button)
             } else if button.currentTitle?.trimmingCharacters(in: .whitespaces).isEmpty == true {
                 button.isAccessibilityElement = false
             }
@@ -59,6 +61,13 @@ class VideoViewController: UIViewController {
         root.subviews.flatMap { view in
             ((view as? UIButton).map { [$0] } ?? []) + allButtons(in: view)
         }
+    }
+
+    private func ensureAccessibleTouchTarget(for button: UIButton) {
+        NSLayoutConstraint.activate([
+            button.widthAnchor.constraint(greaterThanOrEqualToConstant: 44),
+            button.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
+        ])
     }
     
     // MARK: - IBAction

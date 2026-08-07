@@ -213,6 +213,18 @@ final class AppLayoutTests: XCTestCase {
         XCTAssertTrue(buttonLabels.contains("下載影音"))
         XCTAssertTrue(buttonLabels.contains("選擇影音類型"))
         XCTAssertEqual(video.navigationItem.leftBarButtonItem?.accessibilityLabel, "偏好設定")
+
+        video.view.frame = CGRect(x: 0, y: 0, width: 320, height: 568)
+        video.view.setNeedsLayout()
+        video.view.layoutIfNeeded()
+        let labeledButtons = allSubviews(of: video.view, type: UIButton.self).filter {
+            ["下載影音", "選擇影音類型"].contains($0.accessibilityLabel ?? "")
+        }
+        XCTAssertEqual(labeledButtons.count, 2)
+        for button in labeledButtons {
+            XCTAssertGreaterThanOrEqual(button.bounds.width, 44)
+            XCTAssertGreaterThanOrEqual(button.bounds.height, 44)
+        }
     }
 
     private func assertLabel(text: String,
