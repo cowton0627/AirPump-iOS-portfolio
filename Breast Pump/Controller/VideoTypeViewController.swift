@@ -13,6 +13,7 @@ class VideoTypeViewController: UIViewController {
     var isPlaying: Bool = true {
         didSet {
             palyPauseButton.isSelected = isPlaying
+            updatePlayPauseAccessibility()
         }
     }
     
@@ -37,7 +38,7 @@ class VideoTypeViewController: UIViewController {
     
     // MARK: - IBOutlet
     @IBAction func playPauseButtonTapped(_ sender: UIButton) {
-        
+        isPlaying.toggle()
     }
     
     
@@ -55,6 +56,14 @@ class VideoTypeViewController: UIViewController {
             view?.clipsToBounds = true
             view?.alpha = 0.0
         }
+        backButton.accessibilityLabel = "返回影音列表"
+        reverseButton.accessibilityLabel = "上一段影音"
+        forwardButton.accessibilityLabel = "下一段影音"
+        updatePlayPauseAccessibility()
+    }
+
+    private func updatePlayPauseAccessibility() {
+        palyPauseButton.accessibilityLabel = isPlaying ? "暫停影音" : "播放影音"
     }
 
     /*

@@ -233,6 +233,23 @@ final class AppLayoutTests: XCTestCase {
             XCTAssertGreaterThanOrEqual(button.bounds.width, 44)
             XCTAssertGreaterThanOrEqual(button.bounds.height, 44)
         }
+
+        let videoType = UIStoryboard(name: "Video", bundle: .main)
+            .instantiateViewController(identifier: "VideoTypeViewController")
+            as! VideoTypeViewController
+        videoType.loadViewIfNeeded()
+        XCTAssertEqual(videoType.backButton.accessibilityLabel, "返回影音列表")
+        XCTAssertEqual(videoType.reverseButton.accessibilityLabel, "上一段影音")
+        XCTAssertEqual(videoType.forwardButton.accessibilityLabel, "下一段影音")
+        XCTAssertEqual(videoType.palyPauseButton.accessibilityLabel, "暫停影音")
+        videoType.playPauseButtonTapped(videoType.palyPauseButton)
+        XCTAssertEqual(videoType.palyPauseButton.accessibilityLabel, "播放影音")
+
+        let photoType = UIStoryboard(name: "Video", bundle: .main)
+            .instantiateViewController(identifier: "PhotoTypeViewController")
+            as! PhotoTypeViewController
+        photoType.loadViewIfNeeded()
+        XCTAssertEqual(photoType.backButton.accessibilityLabel, "返回照片列表")
     }
 
     func testRecordPageSelectionUpdatesVoiceOverState() {

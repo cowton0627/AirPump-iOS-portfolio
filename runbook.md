@@ -51,4 +51,5 @@
 - BLE 圖示與 VoiceOver value 共用 `setConnectionState(_:at:)` 更新；連線讀為「已連線」，斷線與 reset 讀為「未連線」。
 - 開始／暫停圖示與 VoiceOver 名稱共用 `setPumpingState(_:at:)` 更新，依左右側與即時狀態朗讀「開始…擠乳」或「暫停…擠乳」。
 - 紀錄頁的今日／歷史／分析切換共用 `selectRecordPage(at:)` 更新內容、顏色與 VoiceOver `.selected` trait，避免選取狀態只靠色彩表達。
+- 影音與照片詳情頁的純圖示控制具有明確 VoiceOver 名稱；影音播放按鈕切換時會同步朗讀「播放影音」或「暫停影音」。
 - 完整 suite 共 12 個 tests，0 failures。

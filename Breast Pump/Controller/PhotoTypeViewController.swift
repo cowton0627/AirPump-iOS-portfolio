@@ -21,8 +21,7 @@ class PhotoTypeViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        backButton.accessibilityLabel = "返回照片列表"
     }
     
 
