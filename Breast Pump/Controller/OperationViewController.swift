@@ -1196,14 +1196,14 @@ class OperationViewController: UIViewController {
                         self.setupConnectingTime()
                     }
                     self.setMlLabel(0)
-                    self.bleStateButton[0].setImage(UIImage(named: "blueTooth_On"), for: .normal)
+                    self.setConnectionState(true, at: 0)
                     self.setTurnOffButton(0)
                     
                 }
             } else {
                 resetLeftViews()
                 DispatchQueue.main.async {
-                    self.bleStateButton[0].setImage(UIImage(named: "blueTooth_Off"), for: .normal)
+                    self.setConnectionState(false, at: 0)
                 }
             }
 
@@ -1257,14 +1257,14 @@ class OperationViewController: UIViewController {
                         self.setupConnectingTime()
                     }
                     self.setMlLabel(1)
-                    self.bleStateButton[1].setImage(UIImage(named: "blueTooth_On"), for: .normal)
+                    self.setConnectionState(true, at: 1)
                     self.setTurnOffButton(1)
 
                 }
             } else {
                 resetRightViews()
                 DispatchQueue.main.async {
-                    self.bleStateButton[1].setImage(UIImage(named: "blueTooth_Off"), for: .normal)
+                    self.setConnectionState(false, at: 1)
                 }
             }
         }
@@ -1320,14 +1320,14 @@ class OperationViewController: UIViewController {
                         self.setupConnectingLastTime()
                     }
                     self.setMlLabel(0)
-                    self.bleStateButton[0].setImage(UIImage(named: "blueTooth_On"), for: .normal)
+                    self.setConnectionState(true, at: 0)
                     self.setTurnOffButton(0)
 
                 }
             } else {
                 resetLeftViews()
                 DispatchQueue.main.async {
-                    self.bleStateButton[0].setImage(UIImage(named: "blueTooth_Off"), for: .normal)
+                    self.setConnectionState(false, at: 0)
                 }
             }
 
@@ -1381,14 +1381,14 @@ class OperationViewController: UIViewController {
                         self.setupConnectingLastTime()
                     }
                     self.setMlLabel(1)
-                    self.bleStateButton[1].setImage(UIImage(named: "blueTooth_On"), for: .normal)
+                    self.setConnectionState(true, at: 1)
                     self.setTurnOffButton(1)
 
                 }
             } else {
                 resetRightViews()
                 DispatchQueue.main.async {
-                    self.bleStateButton[1].setImage(UIImage(named: "blueTooth_Off"), for: .normal)
+                    self.setConnectionState(false, at: 1)
                 }
             }
         }
@@ -1586,8 +1586,7 @@ class OperationViewController: UIViewController {
 //            let text = "-- mL"
 //            self.mlLabel[index].attributedText = NSAttributedString(string: text, attributes: [.foregroundColor: self.titleColor])
             
-            self.bleStateButton[index].setImage(UIImage(named: "blueTooth_Off"),
-                                                for: .normal)
+            self.setConnectionState(false, at: index)
             self.strengthLabel[index].text = "--"
             self.playPauseButton[index].setImage(UIImage(named: "play"),
                                                  for: .normal)
@@ -1722,6 +1721,15 @@ class OperationViewController: UIViewController {
             let side = button.tag == 0 ? "左側" : "右側"
             button.accessibilityLabel = "開始或暫停\(side)擠乳"
         }
+    }
+
+    func setConnectionState(_ isConnected: Bool, at index: Int) {
+        guard bleStateButton.indices.contains(index) else { return }
+        bleStateButton[index].setImage(
+            UIImage(named: isConnected ? "blueTooth_On" : "blueTooth_Off"),
+            for: .normal
+        )
+        bleStateButton[index].accessibilityValue = isConnected ? "已連線" : "未連線"
     }
 
     @objc private func pumpControlTouchDown(_ sender: UIButton) {

@@ -203,6 +203,10 @@ final class AppLayoutTests: XCTestCase {
         XCTAssertTrue(operation.bleStateButton.allSatisfy {
             $0.isAccessibilityElement && $0.accessibilityValue == "未連線"
         })
+        operation.setConnectionState(true, at: 0)
+        XCTAssertEqual(operation.bleStateButton[0].accessibilityValue, "已連線")
+        operation.setConnectionState(false, at: 0)
+        XCTAssertEqual(operation.bleStateButton[0].accessibilityValue, "未連線")
 
         let video = UIStoryboard(name: "Video", bundle: .main)
             .instantiateViewController(identifier: "VideoViewController")
