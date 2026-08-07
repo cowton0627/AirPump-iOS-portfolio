@@ -180,10 +180,23 @@ final class AppLayoutTests: XCTestCase {
                             lhsText: "確認", rhsText: nil)
         alert.setNeedsLayout()
         alert.layoutIfNeeded()
+        XCTAssertTrue(alert.accessibilityViewIsModal)
+        XCTAssertTrue(alert.titleLabel.accessibilityTraits.contains(.header))
         assertSubviewsStayWithinHorizontalBounds(of: alert, width: 320)
         for label in allSubviews(of: alert, type: UILabel.self) {
             assertTextFits(label, width: 320)
         }
+
+        let shutdownAlert = ShutdownAlertView.instantiateFromNib()
+        XCTAssertTrue(shutdownAlert.accessibilityViewIsModal)
+        XCTAssertEqual(shutdownAlert.closeButton.accessibilityLabel, "關閉")
+
+        let lowBattery = UIStoryboard(name: "LowBatteryStoryboard", bundle: .main)
+            .instantiateViewController(identifier: "LowBatteryAlertViewController")
+            as! LowBatteryAlertViewController
+        lowBattery.loadViewIfNeeded()
+        XCTAssertTrue(lowBattery.view.accessibilityViewIsModal)
+        XCTAssertTrue(lowBattery.titleLabel.accessibilityTraits.contains(.header))
     }
 
     func testIconOnlyControlsHaveVoiceOverLabels() {

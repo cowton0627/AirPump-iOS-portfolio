@@ -33,6 +33,7 @@ class LowBatteryAlertViewController: UIViewController {
     
     // MARK: - Methods
     private func configureUI() {
+        view.accessibilityViewIsModal = true
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5)
 //        view.alpha = 0.5
         bottomView.layer.cornerRadius = 7
@@ -40,6 +41,7 @@ class LowBatteryAlertViewController: UIViewController {
         bottomView.borderColor = titleColor
         titleLabel.text = "請充電"
         titleLabel.textColor = .systemRed
+        titleLabel.accessibilityTraits.insert(.header)
         subtitleLabel.text = "以備下次使用"
         subtitleLabel.textColor = .systemRed
         confirmButton.backgroundColor = themeColor

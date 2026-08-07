@@ -62,10 +62,12 @@ class ShutdownAlertView: UIView {
     }
     
     private func configureUI() {
+        accessibilityViewIsModal = true
         self.bottomView.layer.cornerRadius = 7
         self.bottomView.layer.borderWidth = 1
         self.bottomView.layer.borderColor = titleColor.cgColor
         self.closeButton.setTitle("", for: .normal)
+        self.closeButton.accessibilityLabel = "關閉"
         self.closeButton.setTitleColor(titleColor, for: .normal)
         self.closeButton.tintColor = themeColor
         self.closeButton.transform = CGAffineTransform(scaleX: 1.3,

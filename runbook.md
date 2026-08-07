@@ -53,4 +53,5 @@
 - 紀錄頁的今日／歷史／分析切換共用 `selectRecordPage(at:)` 更新內容、顏色與 VoiceOver `.selected` trait，避免選取狀態只靠色彩表達。
 - 影音與照片詳情頁的純圖示控制具有明確 VoiceOver 名稱；影音播放按鈕切換時會同步朗讀「播放影音」或「暫停影音」。
 - 偏好設定的響鈴與通知開關以 `UISwitch.isOn` 同步內部狀態及相依設定列，避免事件重送或程式化變更造成畫面與狀態相反。
+- 自訂提醒、結束擠乳與低電量警示框皆標記為 VoiceOver modal；標題使用 `.header` trait，純圖示關閉鈕朗讀為「關閉」。
 - 完整 suite 共 14 個 tests，0 failures。

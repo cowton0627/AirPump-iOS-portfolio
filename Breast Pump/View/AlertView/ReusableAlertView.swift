@@ -66,10 +66,12 @@ class ReusableAlertView: UIView {
     }
     
     private func configureUI() {
+        accessibilityViewIsModal = true
         self.bottomView.layer.cornerRadius = 7
         self.bottomView.layer.borderWidth = 1
         self.bottomView.layer.borderColor = titleColor.cgColor
         self.titleLabel.textColor = titleColor
+        self.titleLabel.accessibilityTraits.insert(.header)
         self.subtitleLabel.textColor = titleColor
         self.lhsButton.backgroundColor = themeColor
         self.lhsButton.setTitleColor(.white, for: .normal)
