@@ -31,4 +31,14 @@ final class BreastPumpUITests: XCTestCase {
         XCTAssertTrue(analysis.isSelected)
         XCTAssertFalse(history.isSelected)
     }
+
+    func testNotificationPreferenceCanBeToggled() {
+        app.tabBars.buttons["tab.preference"].tap()
+
+        let notifySwitch = app.switches["preference.notify"]
+        XCTAssertTrue(notifySwitch.waitForExistence(timeout: 5))
+
+        notifySwitch.tap()
+        XCTAssertEqual(notifySwitch.value as? String, "1")
+    }
 }

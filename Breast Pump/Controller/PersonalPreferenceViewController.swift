@@ -53,6 +53,11 @@ class PersonalPreferenceTableViewController: UITableViewController {
 //        beepTimeTextField.createDatePicker(target: self,
 //                                           selector: #selector(doneTapped))
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        configureAccessibilityIdentifiers()
+    }
     
     // MARK: - IBAction
     @IBAction func beepSwitchChanged(_ sender: UISwitch) {
@@ -119,6 +124,27 @@ class PersonalPreferenceTableViewController: UITableViewController {
         beepTimeTextField.inputView = beepTimePickerView
         beepTimePickerView.delegate = self
         beepTimePickerView.dataSource = self
+    }
+
+    private func configureAccessibilityIdentifiers() {
+        let cells = allSubviews(in: tableView, of: UITableViewCell.self)
+        guard let beepCell = cells.first(where: { cell in
+            allSubviews(in: cell, of: UILabel.self).contains { $0.text == "手機提示音" }
+        }), let notifyCellIndex = cells.firstIndex(where: { cell in
+            allSubviews(in: cell, of: UILabel.self).contains { $0.text == "手機訊息通知" }
+        }) else { return }
+
+        allSubviews(in: beepCell, of: UISwitch.self).first?.accessibilityIdentifier = "preference.beep"
+        let notifyCell = cells[notifyCellIndex]
+        allSubviews(in: notifyCell, of: UISwitch.self).first?.accessibilityIdentifier = "preference.notify"
+
+    }
+
+    private func allSubviews<T: UIView>(in root: UIView, of type: T.Type) -> [T] {
+        root.subviews.flatMap { subview in
+            ((subview as? T).map { [$0] } ?? [])
+                + allSubviews(in: subview, of: type)
+        }
     }
     
     private func rowHeightChangedWithAnimate() {
