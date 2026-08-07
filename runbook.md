@@ -49,4 +49,5 @@
 - 圖示導覽、左右強度控制、開始／暫停、裝置連線狀態與影音操作已補上 VoiceOver 名稱，並加入回歸測試。
 - 影音頁下載與類型選擇按鈕由 31pt 高調整為至少 44×44pt 觸控範圍，窄螢幕版面測試仍通過。
 - BLE 圖示與 VoiceOver value 共用 `setConnectionState(_:at:)` 更新；連線讀為「已連線」，斷線與 reset 讀為「未連線」。
+- 開始／暫停圖示與 VoiceOver 名稱共用 `setPumpingState(_:at:)` 更新，依左右側與即時狀態朗讀「開始…擠乳」或「暫停…擠乳」。
 - 完整 suite 共 12 個 tests，0 failures。

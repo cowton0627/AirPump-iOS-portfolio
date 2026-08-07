@@ -199,7 +199,7 @@ final class AppLayoutTests: XCTestCase {
         XCTAssertEqual(Set(operation.increaseButton.compactMap(\.accessibilityLabel)),
                        ["提高左側強度", "提高右側強度"])
         XCTAssertEqual(Set(operation.playPauseButton.compactMap(\.accessibilityLabel)),
-                       ["開始或暫停左側擠乳", "開始或暫停右側擠乳"])
+                       ["開始左側擠乳", "開始右側擠乳"])
         XCTAssertTrue(operation.bleStateButton.allSatisfy {
             $0.isAccessibilityElement && $0.accessibilityValue == "未連線"
         })
@@ -207,6 +207,10 @@ final class AppLayoutTests: XCTestCase {
         XCTAssertEqual(operation.bleStateButton[0].accessibilityValue, "已連線")
         operation.setConnectionState(false, at: 0)
         XCTAssertEqual(operation.bleStateButton[0].accessibilityValue, "未連線")
+        operation.setPumpingState(true, at: 0)
+        XCTAssertEqual(operation.playPauseButton[0].accessibilityLabel, "暫停左側擠乳")
+        operation.setPumpingState(false, at: 0)
+        XCTAssertEqual(operation.playPauseButton[0].accessibilityLabel, "開始左側擠乳")
 
         let video = UIStoryboard(name: "Video", bundle: .main)
             .instantiateViewController(identifier: "VideoViewController")

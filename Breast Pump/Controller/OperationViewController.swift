@@ -1165,13 +1165,13 @@ class OperationViewController: UIViewController {
             // MARK: 更新啟動與暫停
             if stringValue(at: charDict[GATT.PUMP_STATUS]) == Pause {
                 DispatchQueue.main.async {
-                    self.playPauseButton[0].setImage(UIImage(named: "play"), for: .normal)
+                    self.setPumpingState(false, at: 0)
                 }
             } else if stringValue(at: charDict[GATT.PUMP_STATUS]) == Play {
                 DispatchQueue.main.async { [self] in
                     // 更新集乳量
                     updateMlLabel(from: charDict, toIndex: 0)
-                    playPauseButton[0].setImage(UIImage(named: "pause"), for: .normal)
+                    setPumpingState(true, at: 0)
                 }
             }
             // MARK: 更新模式
@@ -1226,13 +1226,13 @@ class OperationViewController: UIViewController {
             // MARK: 更新啟動與暫停
             if stringValue(at: charDict[GATT.PUMP_STATUS]) == Pause {
                 DispatchQueue.main.async {
-                    self.playPauseButton[1].setImage(UIImage(named: "play"), for: .normal)
+                    self.setPumpingState(false, at: 1)
                 }
             } else if stringValue(at: charDict[GATT.PUMP_STATUS]) == Play {
                 DispatchQueue.main.async { [self] in
                     // 更新集乳量
                     updateMlLabel(from: charDict, toIndex: 1)
-                    playPauseButton[1].setImage(UIImage(named: "pause"), for: .normal)
+                    setPumpingState(true, at: 1)
                 }
             }
             // MARK: 更新模式
@@ -1289,13 +1289,13 @@ class OperationViewController: UIViewController {
             // MARK: 更新啟動與暫停
             if stringValue(at: charLastDict[GATT.PUMP_STATUS]) == Pause {
                 DispatchQueue.main.async {
-                    self.playPauseButton[0].setImage(UIImage(named: "play"), for: .normal)
+                    self.setPumpingState(false, at: 0)
                 }
             } else if stringValue(at: charLastDict[GATT.PUMP_STATUS]) == Play {
                 DispatchQueue.main.async { [self] in
                     // 更新集乳量
                     updateMlLabel(from: charLastDict, toIndex: 0)
-                    playPauseButton[0].setImage(UIImage(named: "pause"), for: .normal)
+                    setPumpingState(true, at: 0)
                 }
             }
             // MARK: 更新模式
@@ -1350,13 +1350,13 @@ class OperationViewController: UIViewController {
             // MARK: 更新啟動與暫停
             if stringValue(at: charLastDict[GATT.PUMP_STATUS]) == Pause {
                 DispatchQueue.main.async {
-                    self.playPauseButton[1].setImage(UIImage(named: "play"), for: .normal)
+                    self.setPumpingState(false, at: 1)
                 }
             } else if stringValue(at: charLastDict[GATT.PUMP_STATUS]) == Play {
                 DispatchQueue.main.async { [self] in
                     // 更新集乳量
                     updateMlLabel(from: charLastDict, toIndex: 1)
-                    playPauseButton[1].setImage(UIImage(named: "pause"), for: .normal)
+                    setPumpingState(true, at: 1)
                 }
             }
             // MARK: 更新模式
@@ -1588,8 +1588,7 @@ class OperationViewController: UIViewController {
             
             self.setConnectionState(false, at: index)
             self.strengthLabel[index].text = "--"
-            self.playPauseButton[index].setImage(UIImage(named: "play"),
-                                                 for: .normal)
+            self.setPumpingState(false, at: index)
             self.resetMode(index)
             self.resetTurnOffButton(index)
         }
@@ -1676,8 +1675,8 @@ class OperationViewController: UIViewController {
         }
         
         // playPauseButton
-        for playPauseBtn in playPauseButton {
-            playPauseBtn.setImage(UIImage(named: "play"), for: .normal)
+        for index in playPauseButton.indices {
+            setPumpingState(false, at: index)
         }
         setupPumpControlButtons()
         configureAccessibility()
@@ -1717,10 +1716,6 @@ class OperationViewController: UIViewController {
             let side = button.tag == 0 ? "左側" : "右側"
             button.accessibilityLabel = "提高\(side)強度"
         }
-        for button in playPauseButton {
-            let side = button.tag == 0 ? "左側" : "右側"
-            button.accessibilityLabel = "開始或暫停\(side)擠乳"
-        }
     }
 
     func setConnectionState(_ isConnected: Bool, at index: Int) {
@@ -1730,6 +1725,14 @@ class OperationViewController: UIViewController {
             for: .normal
         )
         bleStateButton[index].accessibilityValue = isConnected ? "已連線" : "未連線"
+    }
+
+    func setPumpingState(_ isPumping: Bool, at index: Int) {
+        guard playPauseButton.indices.contains(index) else { return }
+        let button = playPauseButton[index]
+        button.setImage(UIImage(named: isPumping ? "pause" : "play"), for: .normal)
+        let side = button.tag == 0 ? "左側" : "右側"
+        button.accessibilityLabel = "\(isPumping ? "暫停" : "開始")\(side)擠乳"
     }
 
     @objc private func pumpControlTouchDown(_ sender: UIButton) {
