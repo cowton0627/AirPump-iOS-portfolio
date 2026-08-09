@@ -7,7 +7,9 @@ final class BreastPumpUITests: XCTestCase {
         continueAfterFailure = false
         app = XCUIApplication()
         let startTab: String
-        if name.contains("Record") {
+        if name.contains("Operation") {
+            startTab = "0"
+        } else if name.contains("Record") {
             startTab = "1"
         } else if name.contains("Preference") {
             startTab = "4"
@@ -74,5 +76,19 @@ final class BreastPumpUITests: XCTestCase {
         confirmButton.tap()
 
         XCTAssertFalse(notice.isHittable)
+    }
+
+    func testOperationControlsAreAvailableWithoutBLE() {
+        let leftDecrease = app.buttons["operation.left.decrease"]
+        let rightDecrease = app.buttons["operation.right.decrease"]
+        let leftPlayPause = app.buttons["operation.left.playPause"]
+        let rightPlayPause = app.buttons["operation.right.playPause"]
+
+        XCTAssertTrue(leftDecrease.waitForExistence(timeout: 5))
+        XCTAssertTrue(rightDecrease.exists)
+        XCTAssertTrue(leftPlayPause.exists)
+        XCTAssertTrue(rightPlayPause.exists)
+        XCTAssertEqual(leftPlayPause.label, "開始左側擠乳")
+        XCTAssertEqual(rightPlayPause.label, "開始右側擠乳")
     }
 }

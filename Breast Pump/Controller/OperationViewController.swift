@@ -1708,6 +1708,23 @@ class OperationViewController: UIViewController {
     }
 
     private func configureAccessibility() {
+        func setIdentifiers(_ buttons: [UIButton], left: String, right: String) {
+            if buttons.indices.contains(0) {
+                buttons[0].accessibilityIdentifier = left
+            }
+            if buttons.indices.contains(1) {
+                buttons[1].accessibilityIdentifier = right
+            }
+        }
+        setIdentifiers(decreaseButton,
+                       left: "operation.left.decrease",
+                       right: "operation.right.decrease")
+        setIdentifiers(increaseButton,
+                       left: "operation.left.increase",
+                       right: "operation.right.increase")
+        setIdentifiers(playPauseButton,
+                       left: "operation.left.playPause",
+                       right: "operation.right.playPause")
         for button in decreaseButton {
             let side = button.tag == 0 ? "左側" : "右側"
             button.accessibilityLabel = "降低\(side)強度"
