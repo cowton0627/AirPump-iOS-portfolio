@@ -48,10 +48,14 @@ final class BreastPumpUITests: XCTestCase {
     }
 
     func testNotificationPreferenceCanBeToggled() {
+        let beepSwitch = app.switches["preference.beep"]
         let notifySwitch = app.switches["preference.notify"]
+        XCTAssertTrue(beepSwitch.waitForExistence(timeout: 5))
         XCTAssertTrue(notifySwitch.waitForExistence(timeout: 5))
 
+        beepSwitch.tap()
         notifySwitch.tap()
+        XCTAssertEqual(beepSwitch.value as? String, "1")
         XCTAssertEqual(notifySwitch.value as? String, "1")
     }
 
