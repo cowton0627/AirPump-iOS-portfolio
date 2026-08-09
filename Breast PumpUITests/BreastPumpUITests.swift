@@ -6,7 +6,20 @@ final class BreastPumpUITests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
         app = XCUIApplication()
-        app.launchEnvironment["AIRPUMP_START_TAB"] = "1"
+        let startTab: String
+        if name.contains("Record") {
+            startTab = "1"
+        } else if name.contains("Preference") {
+            startTab = "4"
+        } else if name.contains("Video") {
+            startTab = "3"
+        } else if name.contains("Discussion") {
+            startTab = "2"
+        } else {
+            startTab = "1"
+        }
+        app.launchEnvironment["AIRPUMP_START_TAB"] = startTab
+        app.launchArguments = ["-ApplePersistenceIgnoreState", "YES"]
         app.launch()
     }
 
@@ -33,8 +46,6 @@ final class BreastPumpUITests: XCTestCase {
     }
 
     func testNotificationPreferenceCanBeToggled() {
-        app.tabBars.buttons["tab.preference"].tap()
-
         let notifySwitch = app.switches["preference.notify"]
         XCTAssertTrue(notifySwitch.waitForExistence(timeout: 5))
 
@@ -43,8 +54,6 @@ final class BreastPumpUITests: XCTestCase {
     }
 
     func testVideoTypePopoverCanSelectVideo() {
-        app.tabBars.buttons["tab.video"].tap()
-
         let typeButton = app.buttons["選擇影音類型"]
         XCTAssertTrue(typeButton.waitForExistence(timeout: 5))
         typeButton.tap()
@@ -54,5 +63,16 @@ final class BreastPumpUITests: XCTestCase {
         videoOption.tap()
 
         XCTAssertTrue(app.staticTexts["影片"].waitForExistence(timeout: 2))
+    }
+
+    func testDiscussionNoticeCanBeDismissed() {
+        let notice = app.staticTexts["敬請期待"]
+        XCTAssertTrue(notice.waitForExistence(timeout: 5))
+
+        let confirmButton = app.buttons["確認"]
+        XCTAssertTrue(confirmButton.exists)
+        confirmButton.tap()
+
+        XCTAssertFalse(notice.isHittable)
     }
 }
