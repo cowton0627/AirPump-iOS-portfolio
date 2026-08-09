@@ -47,6 +47,36 @@ final class BreastPumpUITests: XCTestCase {
         XCTAssertFalse(history.isSelected)
     }
 
+    func testMainTabsCanBeSelected() {
+        let operationTab = app.tabBars.buttons["tab.operation"]
+        let recordsTab = app.tabBars.buttons["tab.records"]
+        let discussionTab = app.tabBars.buttons["tab.discussion"]
+        let videoTab = app.tabBars.buttons["tab.video"]
+        let preferenceTab = app.tabBars.buttons["tab.preference"]
+
+        XCTAssertTrue(recordsTab.waitForExistence(timeout: 5))
+        XCTAssertTrue(recordsTab.isSelected)
+
+        operationTab.tap()
+        XCTAssertTrue(operationTab.isSelected)
+
+        discussionTab.tap()
+        XCTAssertTrue(discussionTab.isSelected)
+        let notice = app.staticTexts["敬請期待"]
+        if notice.waitForExistence(timeout: 2) {
+            app.buttons["確認"].tap()
+        }
+
+        videoTab.tap()
+        XCTAssertTrue(videoTab.isSelected)
+
+        preferenceTab.tap()
+        XCTAssertTrue(preferenceTab.isSelected)
+
+        recordsTab.tap()
+        XCTAssertTrue(recordsTab.isSelected)
+    }
+
     func testNotificationPreferenceCanBeToggled() {
         let beepSwitch = app.switches["preference.beep"]
         let notifySwitch = app.switches["preference.notify"]
