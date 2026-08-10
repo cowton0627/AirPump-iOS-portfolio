@@ -11,7 +11,7 @@ final class BreastPumpUITests: XCTestCase {
             startTab = "0"
         } else if name.contains("Record") {
             startTab = "1"
-        } else if name.contains("Preference") {
+        } else if name.contains("Preference") || name.contains("DemoMode") {
             startTab = "4"
         } else if name.contains("Video") {
             startTab = "3"
@@ -87,6 +87,18 @@ final class BreastPumpUITests: XCTestCase {
         notifySwitch.tap()
         XCTAssertEqual(beepSwitch.value as? String, "1")
         XCTAssertEqual(notifySwitch.value as? String, "1")
+    }
+
+    func testDemoModeCanBeToggled() {
+        let demoSwitch = app.switches["作品集示範模式"]
+        XCTAssertTrue(demoSwitch.waitForExistence(timeout: 5))
+
+        let initialValue = demoSwitch.value as? String
+        demoSwitch.tap()
+        XCTAssertNotEqual(demoSwitch.value as? String, initialValue)
+
+        demoSwitch.tap()
+        XCTAssertEqual(demoSwitch.value as? String, initialValue)
     }
 
     func testVideoTypePopoverCanSelectVideo() {
