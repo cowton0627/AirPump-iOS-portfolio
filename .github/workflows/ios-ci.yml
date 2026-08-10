@@ -87,6 +87,7 @@ jobs:
             -scheme "Breast Pump" \
             -destination "platform=iOS Simulator,id=${{ steps.simulator.outputs.id }}" \
             -resultBundlePath "$RUNNER_TEMP/AirPumpTests.xcresult" \
+            -parallel-testing-enabled NO \
             CODE_SIGNING_ALLOWED=NO
 
       - name: Publish test summary
