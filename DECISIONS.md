@@ -127,4 +127,4 @@
 * BLE 寫入流程尚未移動，降低實體裝置行為回歸風險。
 * 後續可依序抽出 BLE command adapter、session timer 與 mode state，再縮小 ViewController 責任。
 
-目前第二階段已建立 `OperationBLECommanding` 與 `OperationBLECommandAdapter`，先集中測試 payload encoding；實際 peripheral write 會在後續階段逐步導入。
+目前第二階段已建立 `OperationBLECommanding` 與 `OperationBLECommandAdapter`，並先將增加／降低強度的 peripheral write 導入 adapter；play/pause 與 mode command 會在後續階段逐步替換。

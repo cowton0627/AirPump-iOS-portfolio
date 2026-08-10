@@ -13,6 +13,7 @@ import RealmSwift
 class OperationViewController: UIViewController {
     // MARK: - Properties
     private let viewModel = OperationViewModel()
+    private let bleCommandAdapter = OperationBLECommandAdapter()
     private var bleManager: BLEConnectionManager { BLEConnectionManager.shared }
     private let stopwatch = Stopwatch()
     private let stopLastWatch = Stopwatch()
@@ -159,12 +160,10 @@ class OperationViewController: UIViewController {
                 if let level = charDict[GATT.PUMP_LEVEL]?.value?.hexToStr(),
                    let lv = Int(level) {
 
-                    var parameter = NSInteger(lv - 1)
-                    let data = NSData(bytes: &parameter, length: 1) as Data
                     // MARK: 寫入降強度
-                    device.peripheral.writeValue(data,
-                                                 for: charDict[GATT.PUMP_LEVEL]!,
-                                                 type: .withResponse)
+                    write(.pumpLevel(lv - 1),
+                          to: charDict[GATT.PUMP_LEVEL]!,
+                          on: device)
                 }
                 
             } else if stringValue(at: charLastDict[GATT.BREAST_SIDE]) == Left {
@@ -175,12 +174,10 @@ class OperationViewController: UIViewController {
                 if let level = charLastDict[GATT.PUMP_LEVEL]?.value?.hexToStr(),
                    let lv = Int(level) {
                     
-                    var parameter = NSInteger(lv - 1)
-                    let data = NSData(bytes: &parameter, length: 1) as Data
                     // MARK: 寫入降強度
-                    device.peripheral.writeValue(data,
-                                                 for: charLastDict[GATT.PUMP_LEVEL]!,
-                                                 type: .withResponse)
+                    write(.pumpLevel(lv - 1),
+                          to: charLastDict[GATT.PUMP_LEVEL]!,
+                          on: device)
                 }
             }
             
@@ -193,12 +190,10 @@ class OperationViewController: UIViewController {
                 if let level = charDict[GATT.PUMP_LEVEL]?.value?.hexToStr(),
                    let lv = Int(level) {
                     
-                    var parameter = NSInteger(lv - 1)
-                    let data = NSData(bytes: &parameter, length: 1) as Data
                     // MARK: 寫入降強度
-                    device.peripheral.writeValue(data,
-                                                 for: charDict[GATT.PUMP_LEVEL]!,
-                                                 type: .withResponse)
+                    write(.pumpLevel(lv - 1),
+                          to: charDict[GATT.PUMP_LEVEL]!,
+                          on: device)
                 }
                 
             } else if stringValue(at: charLastDict[GATT.BREAST_SIDE]) == Right {
@@ -209,12 +204,10 @@ class OperationViewController: UIViewController {
                 if let level = charLastDict[GATT.PUMP_LEVEL]?.value?.hexToStr(),
                    let lv = Int(level) {
                     
-                    var parameter = NSInteger(lv - 1)
-                    let data = NSData(bytes: &parameter, length: 1) as Data
                     // MARK: 寫入降強度
-                    device.peripheral.writeValue(data,
-                                                 for: charLastDict[GATT.PUMP_LEVEL]!,
-                                                 type: .withResponse)
+                    write(.pumpLevel(lv - 1),
+                          to: charLastDict[GATT.PUMP_LEVEL]!,
+                          on: device)
                 }
             }
             
@@ -233,12 +226,10 @@ class OperationViewController: UIViewController {
                 if let level = charDict[GATT.PUMP_LEVEL]?.value?.hexToStr(),
                    let lv = Int(level) {
                     
-                    var parameter = NSInteger(lv + 1)
-                    let data = NSData(bytes: &parameter, length: 1) as Data
                     // MARK: 寫入增強度
-                    device.peripheral.writeValue(data,
-                                                 for: charDict[GATT.PUMP_LEVEL]!,
-                                                 type: .withResponse)
+                    write(.pumpLevel(lv + 1),
+                          to: charDict[GATT.PUMP_LEVEL]!,
+                          on: device)
                 }
                 
             } else if stringValue(at: charLastDict[GATT.BREAST_SIDE]) == Left {
@@ -249,12 +240,10 @@ class OperationViewController: UIViewController {
                 if let level = charLastDict[GATT.PUMP_LEVEL]?.value?.hexToStr(),
                    let lv = Int(level) {
                     
-                    var parameter = NSInteger(lv + 1)
-                    let data = NSData(bytes: &parameter, length: 1) as Data
                     // MARK: 寫入增強度
-                    device.peripheral.writeValue(data,
-                                                 for: charLastDict[GATT.PUMP_LEVEL]!,
-                                                 type: .withResponse)
+                    write(.pumpLevel(lv + 1),
+                          to: charLastDict[GATT.PUMP_LEVEL]!,
+                          on: device)
                 }
             }
 
@@ -267,12 +256,10 @@ class OperationViewController: UIViewController {
                 if let level = charDict[GATT.PUMP_LEVEL]?.value?.hexToStr(),
                    let lv = Int(level) {
                     
-                    var parameter = NSInteger(lv + 1)
-                    let data = NSData(bytes: &parameter, length: 1) as Data
                     // MARK: 寫入增強度
-                    device.peripheral.writeValue(data,
-                                                 for: charDict[GATT.PUMP_LEVEL]!,
-                                                 type: .withResponse)
+                    write(.pumpLevel(lv + 1),
+                          to: charDict[GATT.PUMP_LEVEL]!,
+                          on: device)
                 }
                 
             } else if stringValue(at: charLastDict[GATT.BREAST_SIDE]) == Right {
@@ -283,12 +270,10 @@ class OperationViewController: UIViewController {
                 if let level = charLastDict[GATT.PUMP_LEVEL]?.value?.hexToStr(),
                    let lv = Int(level) {
                     
-                    var parameter = NSInteger(lv + 1)
-                    let data = NSData(bytes: &parameter, length: 1) as Data
                     // MARK: 寫入增強度
-                    device.peripheral.writeValue(data,
-                                                 for: charLastDict[GATT.PUMP_LEVEL]!,
-                                                 type: .withResponse)
+                    write(.pumpLevel(lv + 1),
+                          to: charLastDict[GATT.PUMP_LEVEL]!,
+                          on: device)
                 }
             }
             
@@ -844,6 +829,13 @@ class OperationViewController: UIViewController {
         let minutes = (totalSeconds % 3600) / 60
         let seconds = totalSeconds % 60
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
+
+    private func write(_ command: OperationBLECommand,
+                       to characteristic: CBCharacteristic,
+                       on device: BLEDevice) {
+        guard let data = bleCommandAdapter.payload(for: command) else { return }
+        device.peripheral.writeValue(data, for: characteristic, type: .withResponse)
     }
     
     /// 顯示斷線警示
