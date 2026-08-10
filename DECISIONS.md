@@ -126,3 +126,5 @@
 * 先建立可被 unit test 驗證的狀態邊界，避免直接重寫 1,800 行控制器。
 * BLE 寫入流程尚未移動，降低實體裝置行為回歸風險。
 * 後續可依序抽出 BLE command adapter、session timer 與 mode state，再縮小 ViewController 責任。
+
+目前第二階段已建立 `OperationBLECommanding` 與 `OperationBLECommandAdapter`，先集中測試 payload encoding；實際 peripheral write 會在後續階段逐步導入。

@@ -12,6 +12,7 @@
 		A2B2C3D40123456789ABC001 /* PortfolioDemoModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2C3D40123456789ABC003 /* PortfolioDemoModeTests.swift */; };
 		A2B2C3D40123456789ABC002 /* PumpRecordMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2C3D40123456789ABC004 /* PumpRecordMapperTests.swift */; };
 		A2B2C3D40123456789ABC015 /* OperationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2C3D40123456789ABC013 /* OperationViewModelTests.swift */; };
+		A2B2C3D40123456789ABC016 /* OperationBLECommandingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B2C3D40123456789ABC014 /* OperationBLECommandingTests.swift */; };
 		A1B2C3DA0123456789ABCDEF /* PortfolioDemoMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3DB0123456789ABCDEF /* PortfolioDemoMode.swift */; };
 		A1B2C3D40123456789ABCDEF /* RealmPumpRecordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D50123456789ABCDEF /* RealmPumpRecordRepository.swift */; };
 		CE39952C2851E1C100899B94 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE39952B2851E1C100899B94 /* APIManager.swift */; };
@@ -68,6 +69,7 @@
 		F7A470B7276715D6001748AC /* Discussion.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7A470B6276715D6001748AC /* Discussion.storyboard */; };
 		F7A470BF27672478001748AC /* OperationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A470BE27672478001748AC /* OperationViewController.swift */; };
 		A1B2C3DD0123456789ABCDEF /* OperationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3DC0123456789ABCDEF /* OperationViewModel.swift */; };
+		A1B2C3DE0123456789ABCDEF /* OperationBLECommanding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3DF0123456789ABCDEF /* OperationBLECommanding.swift */; };
 		F7A470C627672856001748AC /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A470C527672856001748AC /* TodayViewController.swift */; };
 		F7A470C9276728E5001748AC /* MainRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A470C8276728E5001748AC /* MainRecordViewController.swift */; };
 		F7A470D127673206001748AC /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A470D027673206001748AC /* HistoryTableViewController.swift */; };
@@ -102,9 +104,11 @@
 		A2B2C3D40123456789ABC003 /* PortfolioDemoModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDemoModeTests.swift; sourceTree = "<group>"; };
 		A2B2C3D40123456789ABC004 /* PumpRecordMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpRecordMapperTests.swift; sourceTree = "<group>"; };
 		A2B2C3D40123456789ABC013 /* OperationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationViewModelTests.swift; sourceTree = "<group>"; };
+		A2B2C3D40123456789ABC014 /* OperationBLECommandingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationBLECommandingTests.swift; sourceTree = "<group>"; };
 		A2B2C3D40123456789ABC005 /* Breast PumpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Breast PumpTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B2C3DB0123456789ABCDEF /* PortfolioDemoMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDemoMode.swift; sourceTree = "<group>"; };
 		A1B2C3DC0123456789ABCDEF /* OperationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationViewModel.swift; sourceTree = "<group>"; };
+		A1B2C3DF0123456789ABCDEF /* OperationBLECommanding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationBLECommanding.swift; sourceTree = "<group>"; };
 		A1B2C3D70123456789ABCDEF /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
 		A1B2C3D80123456789ABCDEF /* Signing.local.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.local.xcconfig.example; sourceTree = "<group>"; };
 		A1B2C3D50123456789ABCDEF /* RealmPumpRecordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmPumpRecordRepository.swift; sourceTree = "<group>"; };
@@ -214,6 +218,7 @@
 				A2B2C3D40123456789ABC003 /* PortfolioDemoModeTests.swift */,
 				A2B2C3D40123456789ABC004 /* PumpRecordMapperTests.swift */,
 				A2B2C3D40123456789ABC013 /* OperationViewModelTests.swift */,
+				A2B2C3D40123456789ABC014 /* OperationBLECommandingTests.swift */,
 			);
 			path = "Breast PumpTests";
 			sourceTree = "<group>";
@@ -376,6 +381,7 @@
 				CEAA03D027E47D9B00DB7D42 /* MilkingData.swift */,
 				CEAA03D227E47E7A00DB7D42 /* RLM_BreastPump.swift */,
 				A1B2C3DC0123456789ABCDEF /* OperationViewModel.swift */,
+				A1B2C3DF0123456789ABCDEF /* OperationBLECommanding.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -590,6 +596,7 @@
 				A2B2C3D40123456789ABC001 /* PortfolioDemoModeTests.swift in Sources */,
 				A2B2C3D40123456789ABC002 /* PumpRecordMapperTests.swift in Sources */,
 				A2B2C3D40123456789ABC015 /* OperationViewModelTests.swift in Sources */,
+				A2B2C3D40123456789ABC016 /* OperationBLECommandingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,6 +616,7 @@
 				CE414E6A284607F700C076BA /* CustomTextField.swift in Sources */,
 				F7A470BF27672478001748AC /* OperationViewController.swift in Sources */,
 				A1B2C3DD0123456789ABCDEF /* OperationViewModel.swift in Sources */,
+				A1B2C3DE0123456789ABCDEF /* OperationBLECommanding.swift in Sources */,
 				CE5F5D62286ED8590063072C /* MediaTypePopoverTableViewController.swift in Sources */,
 				CE414E622845A13200C076BA /* LowBatteryAlertViewController.swift in Sources */,
 				F7A470C627672856001748AC /* TodayViewController.swift in Sources */,
