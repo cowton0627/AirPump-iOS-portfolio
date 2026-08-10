@@ -1547,6 +1547,11 @@ class OperationViewController: UIViewController {
     
     /// 連線後設置，否則顯示灰色主題
     private func updateModeButtons(atIndex: Int, countRef: Int, modeRef: String) {
+        guard autoButton.indices.contains(atIndex),
+              milkingButton.indices.contains(atIndex),
+              massageButton.indices.contains(atIndex) else { return }
+        viewModel.setMode(rawValue: modeRef, at: atIndex)
+
         func setModeButton(_ button: UIButton) {
 //            button.titleLabel?.tintColor = .white
             button.setTitleColor(.white, for: .normal)
@@ -1562,13 +1567,13 @@ class OperationViewController: UIViewController {
         autoButton[atIndex].backgroundColor = countRef > 0 ? .white : themeColor
         autoButton[atIndex].setTitleColor(countRef > 0 ? themeColor : .white , for: .normal)
         
-        if modeRef == Massage {
+        if viewModel.sides[atIndex].mode == .massage {
             milkingButton[atIndex].backgroundColor = .white
             milkingButton[atIndex].setTitleColor(themeColor, for: .normal)
             massageButton[atIndex].backgroundColor = themeColor
             massageButton[atIndex].setTitleColor(.white, for: .normal)
             
-        } else if modeRef == Milking {
+        } else if viewModel.sides[atIndex].mode == .milking {
             massageButton[atIndex].backgroundColor = .white
             massageButton[atIndex].setTitleColor(themeColor, for: .normal)
             milkingButton[atIndex].backgroundColor = themeColor
@@ -1599,6 +1604,7 @@ class OperationViewController: UIViewController {
     
     // resetMode（內函數）
     private func resetMode(_ index: Int) {
+        viewModel.setMode(rawValue: "", at: index)
         func setModeButton(_ button: UIButton) {
             button.backgroundColor = .white
             button.setTitleColor(titleColor, for: .normal)

@@ -120,7 +120,7 @@
 
 ## 7. Operation MVVM 採分階段拆分
 
-**第一階段**：新增 `OperationViewModel`，集中管理左右側連線／擠乳狀態與 VoiceOver 文案；`OperationViewController` 仍保留 BLE command 與 UIKit binding。
+**第一階段**：新增 `OperationViewModel`，集中管理左右側連線／擠乳狀態、模式 state 與 VoiceOver 文案；`OperationViewController` 仍保留 BLE command 與 UIKit binding。
 
 **為什麼**：
 * 先建立可被 unit test 驗證的狀態邊界，避免直接重寫 1,800 行控制器。

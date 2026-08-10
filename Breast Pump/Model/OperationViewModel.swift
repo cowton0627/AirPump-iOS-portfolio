@@ -3,6 +3,23 @@ import Foundation
 struct OperationSideState: Equatable {
     fileprivate(set) var isConnected = false
     fileprivate(set) var isPumping = false
+    fileprivate(set) var mode: OperationPumpMode = .auto
+}
+
+enum OperationPumpMode: Equatable {
+    case auto
+    case milking
+    case massage
+    case unknown
+
+    init(rawValue: String) {
+        switch rawValue {
+        case "00": self = .massage
+        case "01": self = .milking
+        case "10": self = .unknown
+        default: self = .auto
+        }
+    }
 }
 
 /// UI-facing state for one side of the operation screen.
@@ -18,6 +35,11 @@ final class OperationViewModel {
     func setPumpingState(_ isPumping: Bool, at index: Int) {
         guard sides.indices.contains(index) else { return }
         sides[index].isPumping = isPumping
+    }
+
+    func setMode(rawValue: String, at index: Int) {
+        guard sides.indices.contains(index) else { return }
+        sides[index].mode = OperationPumpMode(rawValue: rawValue)
     }
 
     func connectionAccessibilityValue(at index: Int) -> String {

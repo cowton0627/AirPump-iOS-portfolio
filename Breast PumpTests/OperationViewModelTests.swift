@@ -10,9 +10,11 @@ final class OperationViewModelTests: XCTestCase {
 
         viewModel.setConnectionState(true, at: 0)
         viewModel.setPumpingState(true, at: 0)
+        viewModel.setMode(rawValue: "01", at: 0)
 
         XCTAssertTrue(viewModel.sides[0].isConnected)
         XCTAssertTrue(viewModel.sides[0].isPumping)
+        XCTAssertEqual(viewModel.sides[0].mode, .milking)
         XCTAssertEqual(viewModel.connectionAccessibilityValue(at: 0), "已連線")
         XCTAssertEqual(viewModel.pumpingAccessibilityLabel(side: "左側", at: 0), "暫停左側擠乳")
     }
@@ -22,6 +24,7 @@ final class OperationViewModelTests: XCTestCase {
 
         viewModel.setConnectionState(true, at: 2)
         viewModel.setPumpingState(true, at: -1)
+        viewModel.setMode(rawValue: "01", at: 2)
 
         XCTAssertEqual(viewModel.sides, [OperationSideState(), OperationSideState()])
         XCTAssertEqual(viewModel.connectionAccessibilityValue(at: 2), "未連線")
