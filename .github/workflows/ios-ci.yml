@@ -89,6 +89,27 @@ jobs:
             -resultBundlePath "$RUNNER_TEMP/AirPumpTests.xcresult" \
             CODE_SIGNING_ALLOWED=NO
 
+      - name: Publish test summary
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ ! -d "$RUNNER_TEMP/AirPumpTests.xcresult" ]]; then
+            echo "Test result bundle was not created." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          {
+            echo "## iOS test summary"
+            echo
+            echo '```json'
+            xcrun xcresulttool get test-results summary \
+              --path "$RUNNER_TEMP/AirPumpTests.xcresult" \
+              --compact
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload test diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
