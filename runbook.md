@@ -29,7 +29,7 @@
 
 - 新增 `Breast PumpTests` target 並納入 shared scheme。
 - 覆蓋 Demo Mode 切換通知、左右紀錄合併、10 分鐘 session pairing window、當日篩選、duration 解析與七日統計。
-- 已在 iPhone 15 / iOS 17.5 Simulator 執行 7 個 tests，0 failures，結果為 `TEST SUCCEEDED`。
+- 已在 iPhone 15 / iOS 17.5 Simulator 執行 14 個 unit/integration tests，0 failures，結果為 `TEST SUCCEEDED`；另有 10 個 XCUITests 由同一個 shared scheme 執行。
 
 ## GitHub Actions CI（2026-08-05）
 
@@ -38,6 +38,7 @@
 - 使用 `macos-15` runner，動態建立 runner 上最新可用的 iOS Simulator。
 - 驗證 tracked files 不含 Apple Developer Team ID，且 `Signing.local.xcconfig` 保持 ignored／untracked。
 - 執行 shared `Breast Pump` scheme 的完整 unit 與 UI test suites，無需 code signing；失敗時上傳 `.xcresult` artifact。
+- 測試完成後以 `xcresulttool` 將結果摘要寫入 GitHub Actions Summary，方便核對測試數量、destination 與失敗資訊。
 
 ## 窄螢幕版面回歸（2026-08-06）
 
