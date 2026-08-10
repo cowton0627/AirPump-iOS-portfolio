@@ -120,9 +120,11 @@ open "Breast Pump.xcodeproj"
 xcodebuild test \
   -project "Breast Pump.xcodeproj" \
   -scheme "Breast Pump" \
-  -destination 'platform=iOS Simulator,name=iPhone 15' \
+  -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
   CODE_SIGNING_ALLOWED=NO
 ```
+
+若本機沒有 iOS 17.5 runtime，請先以 `xcrun simctl list devices available` 查看已安裝的 iPhone 與 OS，替換 `-destination`；GitHub Actions 會自動建立 runner 上最新可用的 iOS Simulator。
 
 ### 實體裝置簽署
 
