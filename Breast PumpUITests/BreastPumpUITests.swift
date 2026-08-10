@@ -103,7 +103,10 @@ final class BreastPumpUITests: XCTestCase {
 
     func testVideoTypePopoverCanSelectVideo() {
         let typeButton = app.buttons["選擇影音類型"]
+        let downloadButton = app.buttons["下載影音"]
         XCTAssertTrue(typeButton.waitForExistence(timeout: 5))
+        XCTAssertTrue(downloadButton.waitForExistence(timeout: 5))
+        XCTAssertTrue(downloadButton.isHittable)
         typeButton.tap()
 
         let videoOption = app.staticTexts["影片"]
