@@ -117,3 +117,12 @@
 
 * 是否把 `OperationViewController` 重構 MVVM？工程量大（1800 行 + fixedFrame 子 view）。先不動。
 * `RealmSwift` 是否真的要保留作為未來 persistence？若不用，建議移除 SPM 依賴與所有 `import RealmSwift`。
+
+## 7. Operation MVVM 採分階段拆分
+
+**第一階段**：新增 `OperationViewModel`，集中管理左右側連線／擠乳狀態與 VoiceOver 文案；`OperationViewController` 仍保留 BLE command 與 UIKit binding。
+
+**為什麼**：
+* 先建立可被 unit test 驗證的狀態邊界，避免直接重寫 1,800 行控制器。
+* BLE 寫入流程尚未移動，降低實體裝置行為回歸風險。
+* 後續可依序抽出 BLE command adapter、session timer 與 mode state，再縮小 ViewController 責任。

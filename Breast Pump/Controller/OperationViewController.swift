@@ -12,6 +12,7 @@ import RealmSwift
 /// 主操作頁面
 class OperationViewController: UIViewController {
     // MARK: - Properties
+    private let viewModel = OperationViewModel()
     private var bleManager: BLEConnectionManager { BLEConnectionManager.shared }
     private let stopwatch = Stopwatch()
     private let stopLastWatch = Stopwatch()
@@ -1737,19 +1738,21 @@ class OperationViewController: UIViewController {
 
     func setConnectionState(_ isConnected: Bool, at index: Int) {
         guard bleStateButton.indices.contains(index) else { return }
+        viewModel.setConnectionState(isConnected, at: index)
         bleStateButton[index].setImage(
             UIImage(named: isConnected ? "blueTooth_On" : "blueTooth_Off"),
             for: .normal
         )
-        bleStateButton[index].accessibilityValue = isConnected ? "已連線" : "未連線"
+        bleStateButton[index].accessibilityValue = viewModel.connectionAccessibilityValue(at: index)
     }
 
     func setPumpingState(_ isPumping: Bool, at index: Int) {
         guard playPauseButton.indices.contains(index) else { return }
+        viewModel.setPumpingState(isPumping, at: index)
         let button = playPauseButton[index]
         button.setImage(UIImage(named: isPumping ? "pause" : "play"), for: .normal)
         let side = button.tag == 0 ? "左側" : "右側"
-        button.accessibilityLabel = "\(isPumping ? "暫停" : "開始")\(side)擠乳"
+        button.accessibilityLabel = viewModel.pumpingAccessibilityLabel(side: side, at: index)
     }
 
     @objc private func pumpControlTouchDown(_ sender: UIButton) {

@@ -29,7 +29,7 @@
 
 - 新增 `Breast PumpTests` target 並納入 shared scheme。
 - 覆蓋 Demo Mode 切換通知、左右紀錄合併、10 分鐘 session pairing window、當日篩選、duration 解析與七日統計。
-- 已在 iPhone 15 / iOS 17.5 Simulator 執行 14 個 unit/integration tests，0 failures，結果為 `TEST SUCCEEDED`；另有 10 個 XCUITests 由同一個 shared scheme 執行。
+- 已在 iPhone 15 / iOS 17.5 Simulator 執行 16 個 unit/integration tests，0 failures，結果為 `TEST SUCCEEDED`；另有 10 個 XCUITests 由同一個 shared scheme 執行。
 
 ## GitHub Actions CI（2026-08-05）
 
@@ -55,7 +55,7 @@
 - 影音與照片詳情頁的純圖示控制具有明確 VoiceOver 名稱；影音播放按鈕切換時會同步朗讀「播放影音」或「暫停影音」。
 - 偏好設定的響鈴與通知開關以 `UISwitch.isOn` 同步內部狀態及相依設定列，避免事件重送或程式化變更造成畫面與狀態相反。
 - 自訂提醒、結束擠乳與低電量警示框皆標記為 VoiceOver modal；標題使用 `.header` trait，純圖示關閉鈕朗讀為「關閉」。
-- 完整 suite 共 14 個 unit/integration tests 與 10 個 XCUITests，0 failures。
+- 完整 suite 共 16 個 unit/integration tests 與 10 個 XCUITests，0 failures。
 - `Breast PumpUITests` 透過 `AIRPUMP_START_TAB=1` 從紀錄頁啟動，使用 `tab.records` 與 `records.today/history/analysis` identifiers 驗證實際點擊與選取狀態；另有流程切換 `preference.beep`／`preference.notify`／`作品集示範模式`、從 `tab.video` 分別選取「所有項目」／「相簿」／「影片」，以及從 `tab.discussion` 關閉並重新進入時恢復「敬請期待」提示。
 - UI Test 啟動時傳入 `-ApplePersistenceIgnoreState YES`，避免 Scene state restoration 讓測試沿用前一條流程的 tab 或 overlay。
 - 操作頁 UI smoke test 直接以 `AIRPUMP_START_TAB=0` 啟動，驗證無 BLE 時左右降低強度與開始／暫停控制仍有穩定 identifiers、VoiceOver 名稱與可呈現狀態。
