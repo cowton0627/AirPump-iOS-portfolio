@@ -114,7 +114,7 @@ open "Breast Pump.xcodeproj"
 
 ### 測試
 
-專案包含 `Breast PumpTests` 與 `Breast PumpUITests` targets。前者涵蓋 Demo Mode、Realm record mapping、紀錄統計、版面與 VoiceOver 狀態；後者透過 XCUITest 實際啟動 App，驗證主 tab 導覽、Demo Mode、紀錄主流程切換今日／歷史／分析、偏好設定的提示音與通知開關、影音類型 popover、討論區提示關閉，以及無 BLE 時操作頁控制項仍可呈現。UI 測試使用穩定的 accessibility identifiers，無需 BLE 實體硬體。
+專案包含 `Breast PumpTests` 與 `Breast PumpUITests` targets。前者涵蓋 Demo Mode、Realm record mapping、紀錄統計、版面與 VoiceOver 狀態；後者透過 XCUITest 實際啟動 App，驗證主 tab 導覽、Demo Mode、紀錄主流程切換今日／歷史／分析、偏好設定的提示音與通知開關、影音類型 popover、討論區提示關閉與重新進入時的提示恢復，以及無 BLE 時操作頁控制項仍可呈現。UI 測試使用穩定的 accessibility identifiers，無需 BLE 實體硬體。
 
 ```bash
 xcodebuild test \

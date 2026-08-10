@@ -124,6 +124,18 @@ final class BreastPumpUITests: XCTestCase {
         XCTAssertFalse(notice.isHittable)
     }
 
+    func testDiscussionNoticeReturnsWhenReopeningTab() {
+        let notice = app.staticTexts["敬請期待"]
+        XCTAssertTrue(notice.waitForExistence(timeout: 5))
+        app.buttons["確認"].tap()
+        XCTAssertFalse(notice.isHittable)
+
+        app.tabBars.buttons["tab.video"].tap()
+        app.tabBars.buttons["tab.discussion"].tap()
+
+        XCTAssertTrue(notice.waitForExistence(timeout: 5))
+    }
+
     func testOperationControlsAreAvailableWithoutBLE() {
         let leftDecrease = app.buttons["operation.left.decrease"]
         let rightDecrease = app.buttons["operation.right.decrease"]
