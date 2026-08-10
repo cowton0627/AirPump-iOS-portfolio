@@ -13,7 +13,7 @@ final class BreastPumpUITests: XCTestCase {
             startTab = "1"
         } else if name.contains("Preference") || name.contains("DemoMode") {
             startTab = "4"
-        } else if name.contains("Video") {
+        } else if name.contains("Video") || name.contains("PhotoType") || name.contains("AllMediaType") {
             startTab = "3"
         } else if name.contains("Discussion") {
             startTab = "2"
@@ -111,6 +111,26 @@ final class BreastPumpUITests: XCTestCase {
         videoOption.tap()
 
         XCTAssertTrue(app.staticTexts["影片"].waitForExistence(timeout: 2))
+    }
+
+    func testPhotoTypePopoverCanSelectPhoto() {
+        let typeButton = app.buttons["選擇影音類型"]
+        XCTAssertTrue(typeButton.waitForExistence(timeout: 5))
+        typeButton.tap()
+        let photoOption = app.staticTexts["相簿"]
+        XCTAssertTrue(photoOption.waitForExistence(timeout: 5))
+        photoOption.tap()
+        XCTAssertTrue(app.staticTexts["相簿"].waitForExistence(timeout: 2))
+    }
+
+    func testAllMediaTypePopoverCanSelectAllItems() {
+        let typeButton = app.buttons["選擇影音類型"]
+        XCTAssertTrue(typeButton.waitForExistence(timeout: 5))
+        typeButton.tap()
+        let allOption = app.staticTexts["所有項目"]
+        XCTAssertTrue(allOption.waitForExistence(timeout: 5))
+        app.tables.cells.staticTexts["所有項目"].firstMatch.tap()
+        XCTAssertTrue(app.staticTexts["所有項目"].waitForExistence(timeout: 2))
     }
 
     func testDiscussionNoticeCanBeDismissed() {
